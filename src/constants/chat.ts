@@ -29,7 +29,6 @@ export const modelOptions: ModelOptions[] = [
   'gpt-4-0314',
   'gpt-4-0613',
   'gpt-4-1106-preview',
-  'gpt-4-32k-0314',
 ];
 
 export const defaultModel = 'gpt-3.5-turbo';
