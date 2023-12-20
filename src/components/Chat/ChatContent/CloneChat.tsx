@@ -23,14 +23,16 @@ const CloneChat = React.memo(() => {
       const vMatches = chats[index].title.match(/v\d+$/g);
       // get the version as an integer
       const oldVersion = vMatches ? parseInt(vMatches[0].slice(1)) : 1;
+      // get the old title without the version
+      const oldTitle = vMatches ? chats[index].title.slice(0, -vMatches[0].length) : chats[index].title;
       let i = oldVersion + 1;
       // increment the version
-      let title = `${chats[index].title} v${i}`;
+      let title = `${oldTitle} v${i}`;
 
       // further increment the version if it already exists
       while (chats.some((chat) => chat.title === title)) {
         i += 1;
-        title = `${chats[index].title} v${i}`;
+        title = `${oldTitle} v${i}`;
       }
 
       const clonedChat = JSON.parse(JSON.stringify(chats[index]));
