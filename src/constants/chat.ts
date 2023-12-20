@@ -71,8 +71,8 @@ export const modelCost = {
     completion: { price: 0.002, unit: 1000 },
   },
   'gpt-3.5-turbo-1106': {
-    prompt: { price: 0.003, unit: 1000 },
-    completion: { price: 0.004, unit: 1000 },
+    prompt: { price: 0.001, unit: 1000 },
+    completion: { price: 0.002, unit: 1000 },
   },
   'gpt-4': {
     prompt: { price: 0.03, unit: 1000 },
