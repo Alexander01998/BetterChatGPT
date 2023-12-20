@@ -19,12 +19,18 @@ const CloneChat = React.memo(() => {
 
     if (chats) {
       const index = useStore.getState().currentChatIndex;
-      let title = `Copy of ${chats[index].title}`;
-      let i = 0;
+      // find "v2", "v3", etc. at the end of the title
+      const vMatches = chats[index].title.match(/v\d+$/g);
+      // get the version as an integer
+      const oldVersion = vMatches ? parseInt(vMatches[0].slice(1)) : 1;
+      let i = oldVersion + 1;
+      // increment the version
+      let title = `${chats[index].title} v${i}`;
 
+      // further increment the version if it already exists
       while (chats.some((chat) => chat.title === title)) {
         i += 1;
-        title = `Copy ${i} of ${chats[index].title}`;
+        title = `${chats[index].title} v${i}`;
       }
 
       const clonedChat = JSON.parse(JSON.stringify(chats[index]));
