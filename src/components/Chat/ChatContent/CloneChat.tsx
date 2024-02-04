@@ -22,7 +22,7 @@ const CloneChat = React.memo(() => {
       // find " v2", " v3", etc. at the end of the title
       const vMatches = chats[index].title.match(/ v\d+$/g);
       // get the version as an integer
-      const oldVersion = vMatches ? parseInt(vMatches[0].slice(1)) : 1;
+      const oldVersion = vMatches ? parseInt(vMatches[0].slice(2)) : 1;
       // get the old title without the version
       const oldTitle = vMatches ? chats[index].title.slice(0, -vMatches[0].length) : chats[index].title;
       let i = oldVersion + 1;
