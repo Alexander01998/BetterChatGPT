@@ -5,6 +5,7 @@ import {
   ConfigInterface,
   FolderCollection,
   MessageInterface,
+  TextContentInterface,
 } from '@type/chat';
 import { roles } from '@type/chat';
 import {
@@ -102,8 +103,12 @@ export const convertOpenAIToBetterChatGPTFormat = (
     // Extract message if it exists
     if (node.message) {
       const { role } = node.message.author;
-      const content = node.message.content.parts?.join('') || '';
-      if (content.length > 0) messages.push({ role, content });
+      const textContent = node.message.content.parts?.join('') || '';
+      const content: TextContentInterface[] = [{
+        type: 'text',
+        text: textContent,
+      }];
+      if (textContent.length > 0) messages.push({ role, content });
     }
 
     // Traverse the last child node if any children exist
