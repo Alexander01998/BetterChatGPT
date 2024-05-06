@@ -1,5 +1,5 @@
 import { ShareGPTSubmitBodyInterface } from '@type/api';
-import { ConfigInterface, MessageInterface, ModelOptions } from '@type/chat';
+import { ConfigInterface, ImageContentInterface, MessageInterface, ModelOptions } from '@type/chat';
 import { isAzureEndpoint } from '@utils/api';
 
 export const getChatCompletion = async (

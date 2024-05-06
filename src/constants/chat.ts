@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { ChatInterface, ConfigInterface, ModelOptions } from '@type/chat';
+import { ChatInterface, ConfigInterface, ModelOptions, ModelType, TextContentInterface } from '@type/chat';
 import useStore from '@store/store';
 
 const date = new Date();
@@ -134,6 +134,30 @@ export const modelCost = {
   },
 };
 
+type ModelTypes = {
+  [x in ModelOptions]: ModelType;
+};
+
+// Types of input the model can support. If image, show an image upload button
+export const modelTypes: ModelTypes = {
+  'gpt-3.5-turbo': 'text',
+  'gpt-3.5-turbo-0301': 'text',
+  'gpt-3.5-turbo-0613': 'text',
+  'gpt-3.5-turbo-1106': 'text',
+  'gpt-3.5-turbo-0125': 'text',
+  'gpt-3.5-turbo-16k': 'text',
+  'gpt-3.5-turbo-16k-0613': 'text',
+  'gpt-4': 'text',
+  'gpt-4-0314': 'text',
+  'gpt-4-0613': 'text',
+  'gpt-4-1106-preview': 'text',
+  'gpt-4-0125-preview': 'text',
+  'gpt-4-32k': 'text',
+  'gpt-4-turbo': 'image',
+  'gpt-4-turbo-preview': 'image',
+  'gpt-4-turbo-2024-04-09': 'image',
+};
+
 export const defaultUserMaxToken = 4000;
 
 export const _defaultChatConfig: ConfigInterface = {
@@ -153,7 +177,7 @@ export const generateDefaultChat = (
   title: title ? title : 'New Chat',
   messages:
     useStore.getState().defaultSystemMessage.length > 0
-      ? [{ role: 'system', content: useStore.getState().defaultSystemMessage }]
+      ? [{ role: 'system', content: [{type: 'text', text: useStore.getState().defaultSystemMessage} as TextContentInterface] }]
       : [],
   config: { ...useStore.getState().defaultChatConfig },
   titleSet: false,
