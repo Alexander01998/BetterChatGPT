@@ -169,10 +169,20 @@ const useSubmit = () => {
         !currChats[currentChatIndex]?.titleSet
       ) {
         const messages_length = currChats[currentChatIndex].messages.length;
-        const assistant_message =
+        // these are arrays now, because of image support
+        const assistant_messages =
           currChats[currentChatIndex].messages[messages_length - 1].content;
-        const user_message =
+        const user_messages =
           currChats[currentChatIndex].messages[messages_length - 2].content;
+        // concatenate the text parts of the user and assistant contents
+        const assistant_message = assistant_messages
+          .filter((message) => message.type === 'text')
+          .map((message) => message.text)
+          .join('\n');
+        const user_message = user_messages
+          .filter((message) => message.type === 'text')
+          .map((message) => message.text)
+          .join('\n');
 
         const message: MessageInterface = {
           role: 'user',
