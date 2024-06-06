@@ -27,7 +27,16 @@ export const downloadImg = (imgData: string, fileName: string) => {
 export const chatToMarkdown = (chat: ChatInterface) => {
   let markdown = `# ${chat.title}\n\n`;
   chat.messages.forEach((message) => {
-    markdown += `### **${message.role}**:\n\n${message.content}\n\n---\n\n`;
+    markdown += `### **${message.role}**:`
+    for (let i = 0; i < message.content.length; i++) {
+      let content = message.content[i];
+      if (content.type === 'image_url') {
+        markdown += `\n\n![detail=${content.image_url.detail}](${content.image_url.url})`;
+      }else if (content.type === 'text') {
+        markdown += `\n\n${content.text}`;
+      }
+    }
+    markdown += `\n\n---\n\n`;
   });
   return markdown;
 };
