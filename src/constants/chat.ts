@@ -54,57 +54,13 @@ export const modelMaxToken = {
 };
 
 export const modelCost = {
-  'gpt-3.5-turbo': {
-    prompt: { price: 0.0005, unit: 1000 },
-    completion: { price: 0.0015, unit: 1000 },
-  },
-  'gpt-3.5-turbo-1106': {
-    prompt: { price: 0.001, unit: 1000 },
-    completion: { price: 0.002, unit: 1000 },
-  },
-  'gpt-3.5-turbo-0125': {
-    prompt: { price: 0.0005, unit: 1000 },
-    completion: { price: 0.0015, unit: 1000 },
-  },
-  'gpt-3.5-turbo-16k': {
-    prompt: { price: 0.003, unit: 1000 },
-    completion: { price: 0.004, unit: 1000 },
-  },
-  'gpt-4': {
-    prompt: { price: 0.03, unit: 1000 },
-    completion: { price: 0.06, unit: 1000 },
-  },
-  'gpt-4-0613': {
-    prompt: { price: 0.03, unit: 1000 },
-    completion: { price: 0.06, unit: 1000 },
-  },
-  'gpt-4-1106-preview': {
-    prompt: { price: 0.01, unit: 1000 },
-    completion: { price: 0.03, unit: 1000 },
-  },
-  'gpt-4-0125-preview': {
-    prompt: { price: 0.01, unit: 1000 },
-    completion: { price: 0.03, unit: 1000 },
-  },
-  'gpt-4-turbo': {
-    prompt: { price: 0.01, unit: 1000 },
-    completion: { price: 0.03, unit: 1000 },
-  },
-  'gpt-4-turbo-preview': {
-    prompt: { price: 0.01, unit: 1000 },
-    completion: { price: 0.03, unit: 1000 },
-  },
-  'gpt-4-turbo-2024-04-09': {
-    prompt: { price: 0.01, unit: 1000 },
-    completion: { price: 0.03, unit: 1000 },
-  },
   'gpt-4o': {
-    prompt: { price: 0.005, unit: 1000 },
-    completion: { price: 0.015, unit: 1000 },
+    prompt: { price: 5, unit: 1000000 },
+    completion: { price: 15, unit: 1000000 },
   },
   'gpt-4o-2024-05-13': {
-    prompt: { price: 0.005, unit: 1000 },
-    completion: { price: 0.015, unit: 1000 },
+    prompt: { price: 5, unit: 1000000 },
+    completion: { price: 15, unit: 1000000 },
   },
   'gpt-4o-mini': {
     prompt: { price: 0.15, unit: 1000000 },
@@ -113,6 +69,50 @@ export const modelCost = {
   'gpt-4o-mini-2024-07-18': {
     prompt: { price: 0.15, unit: 1000000 },
     completion: { price: 0.6, unit: 1000000 },
+  },
+  'gpt-4-turbo': {
+    prompt: { price: 10, unit: 1000000 },
+    completion: { price: 30, unit: 1000000 },
+  },
+  'gpt-4-turbo-preview': {
+    prompt: { price: 10, unit: 1000000 },
+    completion: { price: 30, unit: 1000000 },
+  },
+  'gpt-4-turbo-2024-04-09': {
+    prompt: { price: 10, unit: 1000000 },
+    completion: { price: 30, unit: 1000000 },
+  },
+  'gpt-4': {
+    prompt: { price: 30, unit: 1000000 },
+    completion: { price: 60, unit: 1000000 },
+  },
+  'gpt-4-0125-preview': {
+    prompt: { price: 10, unit: 1000000 },
+    completion: { price: 30, unit: 1000000 },
+  },
+  'gpt-4-1106-preview': {
+    prompt: { price: 10, unit: 1000000 },
+    completion: { price: 30, unit: 1000000 },
+  },
+  'gpt-4-0613': {
+    prompt: { price: 30, unit: 1000000 },
+    completion: { price: 60, unit: 1000000 },
+  },
+  'gpt-3.5-turbo': {
+    prompt: { price: 0.5, unit: 1000000 },
+    completion: { price: 1.5, unit: 1000000 },
+  },
+  'gpt-3.5-turbo-0125': {
+    prompt: { price: 0.5, unit: 1000000 },
+    completion: { price: 1.5, unit: 1000000 },
+  },
+  'gpt-3.5-turbo-1106': {
+    prompt: { price: 1, unit: 1000000 },
+    completion: { price: 2, unit: 1000000 },
+  },
+  'gpt-3.5-turbo-16k': {
+    prompt: { price: 3, unit: 1000000 },
+    completion: { price: 4, unit: 1000000 },
   },
 };
 
