@@ -17,18 +17,13 @@ export const _defaultSystemMessage =
 
 export const modelOptions: ModelOptions[] = [
   'gpt-3.5-turbo',
-  'gpt-3.5-turbo-0301',
-  'gpt-3.5-turbo-0613',
   'gpt-3.5-turbo-1106',
   'gpt-3.5-turbo-0125',
   'gpt-3.5-turbo-16k',
-  'gpt-3.5-turbo-16k-0613',
   'gpt-4',
-  'gpt-4-0314',
   'gpt-4-0613',
   'gpt-4-1106-preview',
   'gpt-4-0125-preview',
-  'gpt-4-32k',
   'gpt-4-turbo',
   'gpt-4-turbo-preview',
   'gpt-4-turbo-2024-04-09',
@@ -40,20 +35,13 @@ export const defaultModel = 'gpt-4o-2024-05-13';
 
 export const modelMaxToken = {
   'gpt-3.5-turbo': 4096,
-  'gpt-3.5-turbo-0301': 4096,
-  'gpt-3.5-turbo-0613': 4096,
   'gpt-3.5-turbo-1106': 16384,
   'gpt-3.5-turbo-0125': 16384,
   'gpt-3.5-turbo-16k': 16384,
-  'gpt-3.5-turbo-16k-0613': 16384,
   'gpt-4': 8192,
-  'gpt-4-0314': 8192,
   'gpt-4-0613': 8192,
   'gpt-4-1106-preview': 128000,
   'gpt-4-0125-preview': 128000,
-  'gpt-4-32k': 32768,
-  'gpt-4-32k-0314': 32768,
-  'gpt-4-32k-0613': 32768,
   'gpt-4-turbo': 128000,
   'gpt-4-turbo-preview': 128000,
   'gpt-4-turbo-2024-04-09': 128000,
@@ -65,14 +53,6 @@ export const modelCost = {
   'gpt-3.5-turbo': {
     prompt: { price: 0.0005, unit: 1000 },
     completion: { price: 0.0015, unit: 1000 },
-  },
-  'gpt-3.5-turbo-0301': {
-    prompt: { price: 0.0015, unit: 1000 },
-    completion: { price: 0.002, unit: 1000 },
-  },
-  'gpt-3.5-turbo-0613': {
-    prompt: { price: 0.0015, unit: 1000 },
-    completion: { price: 0.002, unit: 1000 },
   },
   'gpt-3.5-turbo-1106': {
     prompt: { price: 0.001, unit: 1000 },
@@ -86,15 +66,7 @@ export const modelCost = {
     prompt: { price: 0.003, unit: 1000 },
     completion: { price: 0.004, unit: 1000 },
   },
-  'gpt-3.5-turbo-16k-0613': {
-    prompt: { price: 0.001, unit: 1000 },
-    completion: { price: 0.002, unit: 1000 },
-  },
   'gpt-4': {
-    prompt: { price: 0.03, unit: 1000 },
-    completion: { price: 0.06, unit: 1000 },
-  },
-  'gpt-4-0314': {
     prompt: { price: 0.03, unit: 1000 },
     completion: { price: 0.06, unit: 1000 },
   },
@@ -122,18 +94,6 @@ export const modelCost = {
     prompt: { price: 0.01, unit: 1000 },
     completion: { price: 0.03, unit: 1000 },
   },
-  'gpt-4-32k': {
-    prompt: { price: 0.06, unit: 1000 },
-    completion: { price: 0.12, unit: 1000 },
-  },
-  'gpt-4-32k-0314': {
-    prompt: { price: 0.06, unit: 1000 },
-    completion: { price: 0.12, unit: 1000 },
-  },
-  'gpt-4-32k-0613': {
-    prompt: { price: 0.06, unit: 1000 },
-    completion: { price: 0.12, unit: 1000 },
-  },
   'gpt-4o': {
     prompt: { price: 0.005, unit: 1000 },
     completion: { price: 0.015, unit: 1000 },
@@ -151,18 +111,13 @@ type ModelTypes = {
 // Types of input the model can support. If image, show an image upload button
 export const modelTypes: ModelTypes = {
   'gpt-3.5-turbo': 'text',
-  'gpt-3.5-turbo-0301': 'text',
-  'gpt-3.5-turbo-0613': 'text',
   'gpt-3.5-turbo-1106': 'text',
   'gpt-3.5-turbo-0125': 'text',
   'gpt-3.5-turbo-16k': 'text',
-  'gpt-3.5-turbo-16k-0613': 'text',
   'gpt-4': 'text',
-  'gpt-4-0314': 'text',
   'gpt-4-0613': 'text',
   'gpt-4-1106-preview': 'text',
   'gpt-4-0125-preview': 'text',
-  'gpt-4-32k': 'text',
   'gpt-4-turbo': 'image',
   'gpt-4-turbo-preview': 'image',
   'gpt-4-turbo-2024-04-09': 'image',
