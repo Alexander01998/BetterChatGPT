@@ -188,7 +188,7 @@ const useSubmit = () => {
           role: 'user',
           content: [{
             type: 'text',
-            text: `Generate a title in less than 6 words for the following message (language: ${i18n.language}):\n"""\nUser: ${user_message}\nAssistant: ${assistant_message}\n"""`,
+            text: `Generate a concise title (max 6 words) for this conversation. Respond with ONLY the title, no quotes or additional formatting (language: ${i18n.language}):\n"""\nUser: ${user_message}\nAssistant: ${assistant_message}\n"""`,
           } as TextContentInterface]
         };
 
