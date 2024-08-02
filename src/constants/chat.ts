@@ -18,6 +18,8 @@ export const _defaultSystemMessage =
 export const modelOptions: ModelOptions[] = [
   'gpt-4o',
   'gpt-4o-2024-05-13',
+  'gpt-4o-mini',
+  'gpt-4o-mini-2024-07-18',
   'gpt-4-turbo',
   'gpt-4-turbo-preview',
   'gpt-4-turbo-2024-04-09',
@@ -47,6 +49,8 @@ export const modelMaxToken = {
   'gpt-4-turbo-2024-04-09': 128000,
   'gpt-4o': 128000,
   'gpt-4o-2024-05-13': 128000,
+  'gpt-4o-mini': 128000,
+  'gpt-4o-mini-2024-07-18': 128000,
 };
 
 export const modelCost = {
@@ -102,6 +106,14 @@ export const modelCost = {
     prompt: { price: 0.005, unit: 1000 },
     completion: { price: 0.015, unit: 1000 },
   },
+  'gpt-4o-mini': {
+    prompt: { price: 0.15, unit: 1000000 },
+    completion: { price: 0.6, unit: 1000000 },
+  },
+  'gpt-4o-mini-2024-07-18': {
+    prompt: { price: 0.15, unit: 1000000 },
+    completion: { price: 0.6, unit: 1000000 },
+  },
 };
 
 type ModelTypes = {
@@ -123,6 +135,8 @@ export const modelTypes: ModelTypes = {
   'gpt-4-turbo-2024-04-09': 'image',
   'gpt-4o': 'image',
   'gpt-4o-2024-05-13': 'image',
+  'gpt-4o-mini': 'image',
+  'gpt-4o-mini-2024-07-18': 'image',
 };
 
 export const defaultUserMaxToken = 16384;
