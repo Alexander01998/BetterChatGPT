@@ -17,6 +17,7 @@ export const _defaultSystemMessage =
 
 export const modelOptions: ModelOptions[] = [
   'gpt-4o',
+  'gpt-4o-2024-08-06',
   'gpt-4o-2024-05-13',
   'gpt-4o-mini',
   'gpt-4o-mini-2024-07-18',
@@ -33,7 +34,7 @@ export const modelOptions: ModelOptions[] = [
   'gpt-3.5-turbo-1106',
 ];
 
-export const defaultModel = 'gpt-4o-2024-05-13';
+export const defaultModel = 'gpt-4o-2024-08-06';
 
 export const modelMaxToken = {
   'gpt-3.5-turbo': 4096,
@@ -49,6 +50,7 @@ export const modelMaxToken = {
   'gpt-4-turbo-2024-04-09': 128000,
   'gpt-4o': 128000,
   'gpt-4o-2024-05-13': 128000,
+  'gpt-4o-2024-08-06': 128000,
   'gpt-4o-mini': 128000,
   'gpt-4o-mini-2024-07-18': 128000,
 };
@@ -57,6 +59,10 @@ export const modelCost = {
   'gpt-4o': {
     prompt: { price: 5, unit: 1000000 },
     completion: { price: 15, unit: 1000000 },
+  },
+  'gpt-4o-2024-08-06': {
+    prompt: { price: 2.5, unit: 1000000 },
+    completion: { price: 10, unit: 1000000 },
   },
   'gpt-4o-2024-05-13': {
     prompt: { price: 5, unit: 1000000 },
@@ -135,6 +141,7 @@ export const modelTypes: ModelTypes = {
   'gpt-4-turbo-2024-04-09': 'image',
   'gpt-4o': 'image',
   'gpt-4o-2024-05-13': 'image',
+  'gpt-4o-2024-08-06': 'image',
   'gpt-4o-mini': 'image',
   'gpt-4o-mini-2024-07-18': 'image',
 };

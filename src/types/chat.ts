@@ -82,6 +82,7 @@ export type ModelOptions =
   | 'gpt-4-0613'
   | 'gpt-4o'
   | 'gpt-4o-2024-05-13'
+  | 'gpt-4o-2024-08-06'
   | 'gpt-3.5-turbo'
   | 'gpt-3.5-turbo-0125'
   | 'gpt-3.5-turbo-1106'
