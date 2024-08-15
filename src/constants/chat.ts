@@ -16,6 +16,7 @@ export const _defaultSystemMessage =
   ``;
 
 export const modelOptions: ModelOptions[] = [
+  'chatgpt-4o-latest',
   'gpt-4o',
   'gpt-4o-2024-08-06',
   'gpt-4o-2024-05-13',
@@ -34,7 +35,7 @@ export const modelOptions: ModelOptions[] = [
   'gpt-3.5-turbo-1106',
 ];
 
-export const defaultModel = 'gpt-4o-2024-08-06';
+export const defaultModel = 'chatgpt-4o-latest';
 
 export const modelMaxToken = {
   'gpt-3.5-turbo': 4096,
@@ -53,9 +54,14 @@ export const modelMaxToken = {
   'gpt-4o-2024-08-06': 128000,
   'gpt-4o-mini': 128000,
   'gpt-4o-mini-2024-07-18': 128000,
+  'chatgpt-4o-latest': 128000,
 };
 
 export const modelCost = {
+  'chatgpt-4o-latest': {
+    prompt: { price: 5, unit: 1000000 },
+    completion: { price: 15, unit: 1000000 },
+  },
   'gpt-4o': {
     prompt: { price: 5, unit: 1000000 },
     completion: { price: 15, unit: 1000000 },
@@ -144,6 +150,7 @@ export const modelTypes: ModelTypes = {
   'gpt-4o-2024-08-06': 'image',
   'gpt-4o-mini': 'image',
   'gpt-4o-mini-2024-07-18': 'image',
+  'chatgpt-4o-latest': 'image',
 };
 
 export const defaultUserMaxToken = 16384;
