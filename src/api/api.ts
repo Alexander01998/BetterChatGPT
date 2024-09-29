@@ -7,6 +7,7 @@ export const getChatCompletion = async (
   messages: MessageInterface[],
   config: ConfigInterface,
   apiKey?: string,
+  openRouterApiKey?: string,
   customHeaders?: Record<string, string>
 ) => {
   const headers: HeadersInit = {
@@ -17,6 +18,9 @@ export const getChatCompletion = async (
 
   if (config.model.startsWith("openai/")) {
     endpoint = "https://openrouter.ai/api/v1/chat/completions";
+    if (openRouterApiKey) {
+      headers.Authorization = `Bearer ${openRouterApiKey}`;
+    }
   } else if (isAzureEndpoint(endpoint) && apiKey) {
     headers['api-key'] = apiKey;
 
@@ -65,6 +69,7 @@ export const getChatCompletionStream = async (
   messages: MessageInterface[],
   config: ConfigInterface,
   apiKey?: string,
+  openRouterApiKey?: string,
   customHeaders?: Record<string, string>
 ) => {
   const headers: HeadersInit = {
@@ -75,6 +80,9 @@ export const getChatCompletionStream = async (
 
   if (config.model.startsWith("openai/")) {
     endpoint = "https://openrouter.ai/api/v1/chat/completions";
+    if (openRouterApiKey) {
+      headers.Authorization = `Bearer ${openRouterApiKey}`;
+    }
   } else if (isAzureEndpoint(endpoint) && apiKey) {
     headers['api-key'] = apiKey;
 

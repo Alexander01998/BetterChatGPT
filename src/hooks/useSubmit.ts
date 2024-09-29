@@ -14,6 +14,7 @@ const useSubmit = () => {
   const setError = useStore((state) => state.setError);
   const apiEndpoint = useStore((state) => state.apiEndpoint);
   const apiKey = useStore((state) => state.apiKey);
+  const openRouterApiKey = useStore((state) => state.openRouterApiKey);
   const setGenerating = useStore((state) => state.setGenerating);
   const generating = useStore((state) => state.generating);
   const currentChatIndex = useStore((state) => state.currentChatIndex);
@@ -36,13 +37,14 @@ const useSubmit = () => {
           message,
           _defaultChatConfig
         );
-      } else if (apiKey) {
+      } else {
         // own apikey
         data = await getChatCompletion(
           useStore.getState().apiEndpoint,
           message,
           _defaultChatConfig,
-          apiKey
+          apiKey,
+          openRouterApiKey
         );
       }
     } catch (error: unknown) {
@@ -93,13 +95,14 @@ const useSubmit = () => {
           messages,
           chats[currentChatIndex].config
         );
-      } else if (apiKey) {
+      } else {
         // own apikey
         stream = await getChatCompletionStream(
           useStore.getState().apiEndpoint,
           messages,
           chats[currentChatIndex].config,
-          apiKey
+          apiKey,
+          openRouterApiKey
         );
       }
 

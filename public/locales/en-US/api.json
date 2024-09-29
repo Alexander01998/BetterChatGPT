@@ -11,5 +11,9 @@
   },
   "customEndpoint": "Use custom API endpoint",
   "advancedConfig": "View advanced API configuration <0>here</0>",
-  "noApiKeyWarning": "No API key supplied! Please check your API settings."
+  "noApiKeyWarning": "No API key supplied! Please check your API settings.",
+  "openRouterApiKey": {
+    "howTo": "Get your OpenRouter API key <0>here</0>.",
+    "inputLabel": "OpenRouter API Key"
+  }
 }
