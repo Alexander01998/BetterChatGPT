@@ -45,6 +45,7 @@ export const createPartializedState = (state: StoreState) => ({
   apiKey: state.apiKey,
   openRouterApiKey: state.openRouterApiKey,
   apiEndpoint: state.apiEndpoint,
+  openRouterEndpoint: state.openRouterEndpoint,
   theme: state.theme,
   autoTitle: state.autoTitle,
   advancedMode: state.advancedMode,

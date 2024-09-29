@@ -10,6 +10,8 @@ export interface AuthSlice {
   setOpenRouterApiKey: (apiKey: string) => void;
   setApiEndpoint: (apiEndpoint: string) => void;
   setFirstVisit: (firstVisit: boolean) => void;
+  openRouterEndpoint: string;
+  setOpenRouterEndpoint: (endpoint: string) => void;
 }
 
 export const createAuthSlice: StoreSlice<AuthSlice> = (set, get) => ({
@@ -17,6 +19,7 @@ export const createAuthSlice: StoreSlice<AuthSlice> = (set, get) => ({
   openRouterApiKey: import.meta.env.VITE_OPENROUTER_API_KEY || undefined,
   apiEndpoint: defaultAPIEndpoint,
   firstVisit: true,
+  openRouterEndpoint: "https://openrouter.ai/api/v1/chat/completions",
   setApiKey: (apiKey: string) => {
     set((prev: AuthSlice) => ({
       ...prev,
@@ -39,6 +42,12 @@ export const createAuthSlice: StoreSlice<AuthSlice> = (set, get) => ({
     set((prev: AuthSlice) => ({
       ...prev,
       firstVisit: firstVisit,
+    }));
+  },
+  setOpenRouterEndpoint: (endpoint: string) => {
+    set((prev: AuthSlice) => ({
+      ...prev,
+      openRouterEndpoint: endpoint,
     }));
   },
 });

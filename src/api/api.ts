@@ -1,6 +1,7 @@
 import { ShareGPTSubmitBodyInterface } from '@type/api';
 import { ConfigInterface, ImageContentInterface, MessageInterface, ModelOptions } from '@type/chat';
 import { isAzureEndpoint } from '@utils/api';
+import useStore from '@store/store';
 
 export const getChatCompletion = async (
   endpoint: string,
@@ -17,7 +18,7 @@ export const getChatCompletion = async (
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
   if (config.model.startsWith("openai/")) {
-    endpoint = "https://openrouter.ai/api/v1/chat/completions";
+    endpoint = useStore.getState().openRouterEndpoint;
     if (openRouterApiKey) {
       headers.Authorization = `Bearer ${openRouterApiKey}`;
     }
@@ -79,7 +80,7 @@ export const getChatCompletionStream = async (
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
   if (config.model.startsWith("openai/")) {
-    endpoint = "https://openrouter.ai/api/v1/chat/completions";
+    endpoint = useStore.getState().openRouterEndpoint;
     if (openRouterApiKey) {
       headers.Authorization = `Bearer ${openRouterApiKey}`;
     }

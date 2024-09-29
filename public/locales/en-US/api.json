@@ -15,5 +15,8 @@
   "openRouterApiKey": {
     "howTo": "Get your OpenRouter API key <0>here</0>.",
     "inputLabel": "OpenRouter API Key"
+  },
+  "openRouterEndpoint": {
+    "inputLabel": "OpenRouter Endpoint"
   }
 }
