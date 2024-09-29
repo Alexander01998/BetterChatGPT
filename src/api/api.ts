@@ -15,7 +15,9 @@ export const getChatCompletion = async (
   };
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
-  if (isAzureEndpoint(endpoint) && apiKey) {
+  if (config.model.startsWith("openai/")) {
+    endpoint = "https://openrouter.ai/api/v1/chat/completions";
+  } else if (isAzureEndpoint(endpoint) && apiKey) {
     headers['api-key'] = apiKey;
 
     const modelmapping: Partial<Record<ModelOptions, string>> = {
@@ -71,7 +73,9 @@ export const getChatCompletionStream = async (
   };
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
-  if (isAzureEndpoint(endpoint) && apiKey) {
+  if (config.model.startsWith("openai/")) {
+    endpoint = "https://openrouter.ai/api/v1/chat/completions";
+  } else if (isAzureEndpoint(endpoint) && apiKey) {
     headers['api-key'] = apiKey;
 
     const modelmapping: Partial<Record<ModelOptions, string>> = {
