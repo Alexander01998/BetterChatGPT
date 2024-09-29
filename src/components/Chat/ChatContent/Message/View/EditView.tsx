@@ -10,7 +10,7 @@ import PopupModal from '@components/PopupModal';
 import TokenCount from '@components/TokenCount';
 import CommandPrompt from '../CommandPrompt';
 import FolderIcon from '@icon/FolderIcon';
-import { modelTypes } from '@constants/chat';
+import { modelTypes, defaultModel } from '@constants/chat';
 
 const EditView = ({
   content: content,
@@ -243,7 +243,7 @@ const EditViewButtons = memo(
     const { t } = useTranslation();
     const generating = useStore.getState().generating;
     const advancedMode = useStore((state) => state.advancedMode);
-    const model = useStore((state) => state.chats![state.currentChatIndex].config.model);
+    const model = useStore((state) => state.chats?.[state.currentChatIndex]?.config?.model ?? defaultModel);
     const fileInputRef = useRef(null);
 
     const handleUploadButtonClick = () => {
