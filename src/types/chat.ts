@@ -89,7 +89,9 @@ export type ModelOptions =
   | 'gpt-3.5-turbo-16k'
   | 'gpt-4o-mini'
   | 'gpt-4o-mini-2024-07-18'
-  | 'chatgpt-4o-latest';
+  | 'chatgpt-4o-latest'
+  | 'openai/o1-preview-2024-09-12'
+  | 'openai/o1-mini-2024-09-12';
 
 export type ModelType = 'text' | 'image';
 

@@ -33,6 +33,8 @@ export const modelOptions: ModelOptions[] = [
   'gpt-3.5-turbo-16k',
   'gpt-3.5-turbo-0125',
   'gpt-3.5-turbo-1106',
+  'openai/o1-preview-2024-09-12',
+  'openai/o1-mini-2024-09-12',
 ];
 
 export const defaultModel = 'chatgpt-4o-latest';
@@ -55,6 +57,8 @@ export const modelMaxToken = {
   'gpt-4o-mini': 128000,
   'gpt-4o-mini-2024-07-18': 128000,
   'chatgpt-4o-latest': 128000,
+  'openai/o1-preview-2024-09-12': 128000,
+  'openai/o1-mini-2024-09-12': 128000,
 };
 
 export const modelCost = {
@@ -126,6 +130,14 @@ export const modelCost = {
     prompt: { price: 3, unit: 1000000 },
     completion: { price: 4, unit: 1000000 },
   },
+  'openai/o1-preview-2024-09-12': {
+    prompt: { price: 15, unit: 1000000 },
+    completion: { price: 60, unit: 1000000 },
+  },
+  'openai/o1-mini-2024-09-12': {
+    prompt: { price: 3, unit: 1000000 },
+    completion: { price: 12, unit: 1000000 },
+  },
 };
 
 type ModelTypes = {
@@ -151,6 +163,8 @@ export const modelTypes: ModelTypes = {
   'gpt-4o-mini': 'image',
   'gpt-4o-mini-2024-07-18': 'image',
   'chatgpt-4o-latest': 'image',
+  'openai/o1-preview-2024-09-12': 'text',
+  'openai/o1-mini-2024-09-12': 'text',
 };
 
 export const defaultUserMaxToken = 16384;
