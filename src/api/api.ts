@@ -17,7 +17,7 @@ export const getChatCompletion = async (
   };
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
-  if (config.model.startsWith("openai/")) {
+  if (config.model.includes("/")) {
     endpoint = useStore.getState().openRouterEndpoint;
     if (openRouterApiKey) {
       headers.Authorization = `Bearer ${openRouterApiKey}`;
@@ -79,7 +79,7 @@ export const getChatCompletionStream = async (
   };
   if (apiKey) headers.Authorization = `Bearer ${apiKey}`;
 
-  if (config.model.startsWith("openai/")) {
+  if (config.model.includes("/")) {
     endpoint = useStore.getState().openRouterEndpoint;
     if (openRouterApiKey) {
       headers.Authorization = `Bearer ${openRouterApiKey}`;
