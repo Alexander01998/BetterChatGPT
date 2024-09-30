@@ -91,7 +91,8 @@ export type ModelOptions =
   | 'gpt-4o-mini-2024-07-18'
   | 'chatgpt-4o-latest'
   | 'openai/o1-preview-2024-09-12'
-  | 'openai/o1-mini-2024-09-12';
+  | 'openai/o1-mini-2024-09-12'
+  | 'anthropic/claude-3.5-sonnet:beta';
 
 export type ModelType = 'text' | 'image';
 
