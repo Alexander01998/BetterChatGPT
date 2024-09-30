@@ -121,14 +121,15 @@ const useSubmit = () => {
           );
           partial = '';
 
-          if (result === '[DONE]' || done) {
+          if (Array.isArray(result) && result.length === 1 && result[0] === '[DONE]' || done) {
             reading = false;
           } else {
             const resultString = result.reduce((output: string, curr) => {
               if (typeof curr === 'string') {
                 partial += curr;
-              } else {
-                const content = curr.choices[0]?.delta?.content ?? null;
+              } else if (typeof curr === 'object' && curr !== null) {
+                const choices = (curr as { choices?: Array<{ delta?: { content?: string } }> }).choices;
+                const content = choices?.[0]?.delta?.content ?? null;
                 if (content) output += content;
               }
               return output;
