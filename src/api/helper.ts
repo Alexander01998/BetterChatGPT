@@ -2,23 +2,31 @@ import { EventSourceData } from '@type/api';
 
 export const parseEventSource = (
   data: string
-): '[DONE]' | EventSourceData[] => {
-  const result = data
-    .split('\n\n')
-    .filter(Boolean)
-    .map((chunk) => {
-      const jsonString = chunk
-        .split('\n')
-        .map((line) => line.replace(/^data: /, ''))
-        .join('');
-      if (jsonString === '[DONE]') return jsonString;
-      try {
-        const json = JSON.parse(jsonString);
-        return json;
-      } catch {
-        return jsonString;
+): (string | Record<string, unknown>)[] => {
+  const result: (string | Record<string, unknown>)[] = [];
+  const events = data.split("\n\n");
+
+  for (const event of events) {
+    if (event === ": OPENROUTER PROCESSING") {
+      // Ignore this message
+    } else if (event.startsWith("data: ")) {
+      const jsonData = event.replace(/^data: /, "").trim();
+      if (jsonData === "[DONE]") {
+        result.push("[DONE]");
+      } else {
+        try {
+          const parsed = JSON.parse(jsonData);
+          result.push(parsed);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+          result.push(jsonData);
+        }
       }
-    });
+    } else if (event.trim() !== "") {
+      result.push(event);
+    }
+  }
+
   return result;
 };
 
