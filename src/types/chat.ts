@@ -90,8 +90,8 @@ export type ModelOptions =
   | 'gpt-4o-mini'
   | 'gpt-4o-mini-2024-07-18'
   | 'chatgpt-4o-latest'
-  | 'openai/o1-preview-2024-09-12'
-  | 'openai/o1-mini-2024-09-12'
+  | 'o1-preview-2024-09-12'
+  | 'o1-mini-2024-09-12'
   | 'anthropic/claude-3.5-sonnet:beta'
   | 'perplexity/llama-3.1-sonar-huge-128k-online'
   | 'google/gemini-pro-1.5-exp';
