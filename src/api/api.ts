@@ -109,6 +109,61 @@ export const getChatCompletionStream = async (
     }
   }
 
+  if (config.model.startsWith('o1')) {
+    // For models starting with "o1", use non-streaming request
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        messages,
+        ...config,
+        max_tokens: undefined,
+        stream: false,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(await response.text());
+    }
+
+    const data = await response.json();
+    
+    // Create a fake stream that sends the response in the expected format
+    const fakeStream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+        
+        // Simulate streaming by sending the content in chunks
+        const content = data.choices[0].message.content;
+        const chunkSize = 100;
+        
+        for (let i = 0; i < content.length; i += chunkSize) {
+          const chunk = content.slice(i, i + chunkSize);
+          const fakeChunk = {
+            choices: [{
+              delta: {
+                content: chunk
+              }
+            }]
+          };
+          const encodedChunk = encoder.encode(`data: ${JSON.stringify(fakeChunk)}\n\n`);
+          controller.enqueue(encodedChunk);
+          
+          // Add a small delay to simulate streaming
+          await new Promise(resolve => setTimeout(resolve, 1));
+        }
+        
+        // Send the [DONE] message
+        const doneMessage = encoder.encode('data: [DONE]\n\n');
+        controller.enqueue(doneMessage);
+        controller.close();
+      },
+    });
+
+    return fakeStream;
+  }
+
+  // Existing streaming logic for other models
   const response = await fetch(endpoint, {
     method: 'POST',
     headers,
