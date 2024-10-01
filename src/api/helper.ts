@@ -9,21 +9,31 @@ export const parseEventSource = (
   for (const event of events) {
     if (event === ": OPENROUTER PROCESSING") {
       // Ignore this message
-    } else if (event.startsWith("data: ")) {
-      const jsonData = event.replace(/^data: /, "").trim();
-      if (jsonData === "[DONE]") {
-        result.push("[DONE]");
-      } else {
-        try {
-          const parsed = JSON.parse(jsonData);
-          result.push(parsed);
-        } catch (error) {
-          console.error("Error parsing JSON:", error);
-          result.push(jsonData);
-        }
+      continue;
+    }
+
+    const lines = event.split('\n');
+    let jsonData = '';
+
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        jsonData += line.replace(/^data: /, '').trim() + ' ';
       }
-    } else if (event.trim() !== "") {
-      result.push(event);
+    }
+
+    jsonData = jsonData.trim();
+
+    if (jsonData === "[DONE]") {
+      result.push("[DONE]");
+    } else if (jsonData) {
+      try {
+        const parsed = JSON.parse(jsonData);
+        result.push(parsed);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        // Instead of pushing the raw data, we'll push an object with the unparsed content
+        result.push({ unparsed: jsonData });
+      }
     }
   }
 
