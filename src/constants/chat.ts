@@ -38,6 +38,7 @@ export const modelOptions: ModelOptions[] = [
   'anthropic/claude-3.5-sonnet:beta',
   'perplexity/llama-3.1-sonar-huge-128k-online',
   'google/gemini-pro-1.5-exp',
+  'x-ai/grok-2',
 ];
 
 export const defaultModel = 'chatgpt-4o-latest';
@@ -65,6 +66,7 @@ export const modelMaxToken = {
   'anthropic/claude-3.5-sonnet:beta': 200000,
   'perplexity/llama-3.1-sonar-huge-128k-online': 127072,
   'google/gemini-pro-1.5-exp': 4000000,
+  'x-ai/grok-2': 32768,
 };
 
 export const modelCost = {
@@ -156,6 +158,10 @@ export const modelCost = {
     prompt: { price: 0, unit: 1000000 },
     completion: { price: 0, unit: 1000000 },
   },
+  'x-ai/grok-2': {
+    prompt: { price: 4.2, unit: 1000000 },
+    completion: { price: 6.9, unit: 1000000 },
+  },
 };
 
 type ModelTypes = {
@@ -186,6 +192,7 @@ export const modelTypes: ModelTypes = {
   'anthropic/claude-3.5-sonnet:beta': 'image',
   'perplexity/llama-3.1-sonar-huge-128k-online': 'text',
   'google/gemini-pro-1.5-exp': 'image',
+  'x-ai/grok-2': 'text',
 };
 
 export const defaultUserMaxToken = 16384;
