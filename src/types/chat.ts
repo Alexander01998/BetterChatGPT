@@ -95,7 +95,8 @@ export type ModelOptions =
   | 'anthropic/claude-3.5-sonnet:beta'
   | 'perplexity/llama-3.1-sonar-huge-128k-online'
   | 'google/gemini-pro-1.5-exp'
-  | 'x-ai/grok-2';
+  | 'x-ai/grok-2'
+  | 'nvidia/llama-3.1-nemotron-70b-instruct';
 
 export type ModelType = 'text' | 'image';
 

@@ -39,6 +39,7 @@ export const modelOptions: ModelOptions[] = [
   'perplexity/llama-3.1-sonar-huge-128k-online',
   'google/gemini-pro-1.5-exp',
   'x-ai/grok-2',
+  'nvidia/llama-3.1-nemotron-70b-instruct',
 ];
 
 export const defaultModel = 'chatgpt-4o-latest';
@@ -67,6 +68,7 @@ export const modelMaxToken = {
   'perplexity/llama-3.1-sonar-huge-128k-online': 127072,
   'google/gemini-pro-1.5-exp': 4000000,
   'x-ai/grok-2': 32768,
+  'nvidia/llama-3.1-nemotron-70b-instruct': 131072,
 };
 
 export const modelCost = {
@@ -162,6 +164,10 @@ export const modelCost = {
     prompt: { price: 4.2, unit: 1000000 },
     completion: { price: 6.9, unit: 1000000 },
   },
+  'nvidia/llama-3.1-nemotron-70b-instruct': {
+    prompt: { price: 0.35, unit: 1000000 },
+    completion: { price: 0.4, unit: 1000000 },
+  },
 };
 
 type ModelTypes = {
@@ -193,6 +199,7 @@ export const modelTypes: ModelTypes = {
   'perplexity/llama-3.1-sonar-huge-128k-online': 'text',
   'google/gemini-pro-1.5-exp': 'image',
   'x-ai/grok-2': 'text',
+  'nvidia/llama-3.1-nemotron-70b-instruct': 'text',
 };
 
 export const defaultUserMaxToken = 16384;
