@@ -172,6 +172,36 @@ const EditView = ({
     }
   }, []);
 
+  // Add clipboard paste handler
+  const handlePaste = async (e: React.ClipboardEvent) => {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+
+    const imageItems = Array.from(items).filter(item => item.type.startsWith('image/'));
+    if (imageItems.length === 0) return;
+
+    e.preventDefault();
+
+    const newImages = await Promise.all(imageItems.map(async (item) => {
+      const blob = item.getAsFile();
+      if (!blob) return null;
+      
+      return {
+        type: 'image_url',
+        image_url: {
+          detail: 'auto',
+          url: await blobToBase64(blob) as string
+        }
+      } as ImageContentInterface;
+    }));
+
+    const validImages = newImages.filter((img): img is ImageContentInterface => img !== null);
+    if (validImages.length > 0) {
+      const updatedContent = [..._content, ...validImages];
+      _setContent(updatedContent);
+    }
+  };
+
   return (
     <>
       <div
@@ -186,6 +216,7 @@ const EditView = ({
           onChange={(e) => {
             _setContent((prev) => [{ type: 'text', text: e.target.value }, ...prev.slice(1)])
           }}
+          onPaste={handlePaste}
           value={(_content[0] as TextContentInterface).text}
           placeholder={t('submitPlaceholder') as string}
           onKeyDown={handleKeyDown}
