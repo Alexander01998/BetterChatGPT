@@ -40,6 +40,7 @@ export const modelOptions: ModelOptions[] = [
   'google/gemini-pro-1.5-exp',
   'x-ai/grok-2',
   'nvidia/llama-3.1-nemotron-70b-instruct',
+  'deepseek/deepseek-r1',
 ];
 
 export const defaultModel = 'chatgpt-4o-latest';
@@ -69,6 +70,7 @@ export const modelMaxToken = {
   'google/gemini-pro-1.5-exp': 4000000,
   'x-ai/grok-2': 32768,
   'nvidia/llama-3.1-nemotron-70b-instruct': 131072,
+  'deepseek/deepseek-r1': 64000,
 };
 
 export const modelCost = {
@@ -168,6 +170,10 @@ export const modelCost = {
     prompt: { price: 0.35, unit: 1000000 },
     completion: { price: 0.4, unit: 1000000 },
   },
+  'deepseek/deepseek-r1': {
+    prompt: { price: 0.55, unit: 1000000 },
+    completion: { price: 2.19, unit: 1000000 },
+  },
 };
 
 type ModelTypes = {
@@ -200,6 +206,7 @@ export const modelTypes: ModelTypes = {
   'google/gemini-pro-1.5-exp': 'image',
   'x-ai/grok-2': 'text',
   'nvidia/llama-3.1-nemotron-70b-instruct': 'text',
+  'deepseek/deepseek-r1': 'text',
 };
 
 export const defaultUserMaxToken = 16384;

@@ -96,7 +96,8 @@ export type ModelOptions =
   | 'perplexity/llama-3.1-sonar-huge-128k-online'
   | 'google/gemini-pro-1.5-exp'
   | 'x-ai/grok-2'
-  | 'nvidia/llama-3.1-nemotron-70b-instruct';
+  | 'nvidia/llama-3.1-nemotron-70b-instruct'
+  | 'deepseek/deepseek-r1';
 
 export type ModelType = 'text' | 'image';
 
