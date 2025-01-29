@@ -71,7 +71,7 @@ export const modelMaxToken = {
   'google/gemini-pro-1.5-exp': 4000000,
   'x-ai/grok-2': 32768,
   'nvidia/llama-3.1-nemotron-70b-instruct': 131072,
-  'deepseek/deepseek-r1': 64000,
+  'deepseek/deepseek-r1': 163840,
   'perplexity/sonar-reasoning': 127000,
 };
 
