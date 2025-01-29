@@ -41,6 +41,7 @@ export const modelOptions: ModelOptions[] = [
   'x-ai/grok-2',
   'nvidia/llama-3.1-nemotron-70b-instruct',
   'deepseek/deepseek-r1',
+  'perplexity/sonar-reasoning',
 ];
 
 export const defaultModel = 'chatgpt-4o-latest';
@@ -71,6 +72,7 @@ export const modelMaxToken = {
   'x-ai/grok-2': 32768,
   'nvidia/llama-3.1-nemotron-70b-instruct': 131072,
   'deepseek/deepseek-r1': 64000,
+  'perplexity/sonar-reasoning': 127000,
 };
 
 export const modelCost = {
@@ -174,7 +176,12 @@ export const modelCost = {
     prompt: { price: 0.55, unit: 1000000 },
     completion: { price: 2.19, unit: 1000000 },
   },
+  'perplexity/sonar-reasoning': {
+    prompt: { price: 1, unit: 1000000 },
+    completion: { price: 5, unit: 1000000 },
+  },
 };
+
 
 type ModelTypes = {
   [x in ModelOptions]: ModelType;
@@ -207,6 +214,7 @@ export const modelTypes: ModelTypes = {
   'x-ai/grok-2': 'text',
   'nvidia/llama-3.1-nemotron-70b-instruct': 'text',
   'deepseek/deepseek-r1': 'text',
+  'perplexity/sonar-reasoning': 'text',
 };
 
 export const defaultUserMaxToken = 16384;
