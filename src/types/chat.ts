@@ -97,7 +97,7 @@ export type ModelOptions =
   | 'google/gemini-pro-1.5-exp'
   | 'x-ai/grok-2'
   | 'nvidia/llama-3.1-nemotron-70b-instruct'
-  | 'deepseek/deepseek-r1'
+  | 'deepseek/deepseek-r1:nitro'
   | 'perplexity/sonar-reasoning';
 
 export type ModelType = 'text' | 'image';
