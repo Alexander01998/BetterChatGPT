@@ -16,6 +16,9 @@ export const _defaultSystemMessage =
   ``;
 
 export const modelOptions: ModelOptions[] = [
+  'anthropic/claude-3.7-sonnet:beta',
+  'anthropic/claude-3.7-sonnet:thinking',
+  'anthropic/claude-3.5-sonnet:beta',
   'chatgpt-4o-latest',
   'gpt-4o',
   'gpt-4o-2024-08-06',
@@ -35,7 +38,6 @@ export const modelOptions: ModelOptions[] = [
   'gpt-3.5-turbo-1106',
   'o1-preview-2024-09-12',
   'o1-mini-2024-09-12',
-  'anthropic/claude-3.5-sonnet:beta',
   'perplexity/llama-3.1-sonar-huge-128k-online',
   'google/gemini-pro-1.5-exp',
   'x-ai/grok-2',
@@ -44,7 +46,7 @@ export const modelOptions: ModelOptions[] = [
   'perplexity/sonar-reasoning',
 ];
 
-export const defaultModel = 'chatgpt-4o-latest';
+export const defaultModel = 'anthropic/claude-3.7-sonnet:beta';
 
 export const modelMaxToken = {
   'gpt-3.5-turbo': 4096,
@@ -67,6 +69,8 @@ export const modelMaxToken = {
   'o1-preview-2024-09-12': 128000,
   'o1-mini-2024-09-12': 128000,
   'anthropic/claude-3.5-sonnet:beta': 200000,
+  'anthropic/claude-3.7-sonnet:beta': 200000,
+  'anthropic/claude-3.7-sonnet:thinking': 200000,
   'perplexity/llama-3.1-sonar-huge-128k-online': 127072,
   'google/gemini-pro-1.5-exp': 4000000,
   'x-ai/grok-2': 32768,
@@ -156,6 +160,14 @@ export const modelCost = {
     prompt: { price: 3, unit: 1000000 },
     completion: { price: 15, unit: 1000000 },
   },
+  'anthropic/claude-3.7-sonnet:beta': {
+    prompt: { price: 3, unit: 1000000 },
+    completion: { price: 15, unit: 1000000 },
+  },
+  'anthropic/claude-3.7-sonnet:thinking': {
+    prompt: { price: 3, unit: 1000000 },
+    completion: { price: 15, unit: 1000000 },
+  },
   'perplexity/llama-3.1-sonar-huge-128k-online': {
     prompt: { price: 5, unit: 1000000 },
     completion: { price: 5, unit: 1000000 },
@@ -209,6 +221,8 @@ export const modelTypes: ModelTypes = {
   'o1-preview-2024-09-12': 'text',
   'o1-mini-2024-09-12': 'text',
   'anthropic/claude-3.5-sonnet:beta': 'image',
+  'anthropic/claude-3.7-sonnet:beta': 'image',
+  'anthropic/claude-3.7-sonnet:thinking': 'image',
   'perplexity/llama-3.1-sonar-huge-128k-online': 'text',
   'google/gemini-pro-1.5-exp': 'image',
   'x-ai/grok-2': 'text',
