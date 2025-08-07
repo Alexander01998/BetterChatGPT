@@ -21,6 +21,8 @@ export const modelOptions: ModelOptions[] = [
   'anthropic/claude-3.7-sonnet:beta',
   'anthropic/claude-3.7-sonnet:thinking',
   'anthropic/claude-3.5-sonnet:beta',
+  'openai/gpt-5',
+  'gpt-5',
   'chatgpt-4o-latest',
   'gpt-4o',
   'gpt-4o-2024-08-06',
@@ -70,6 +72,8 @@ export const modelMaxToken = {
   'chatgpt-4o-latest': 128000,
   'o1-preview-2024-09-12': 128000,
   'o1-mini-2024-09-12': 128000,
+  'gpt-5': 400000,
+  'openai/gpt-5': 400000,
   'anthropic/claude-3.5-sonnet:beta': 200000,
   'anthropic/claude-3.7-sonnet:beta': 200000,
   'anthropic/claude-3.7-sonnet:thinking': 200000,
@@ -84,6 +88,14 @@ export const modelMaxToken = {
 };
 
 export const modelCost = {
+  'gpt-5': {
+    prompt: { price: 1.25, unit: 1000000 },
+    completion: { price: 10, unit: 1000000 },
+  },
+  'openai/gpt-5': {
+    prompt: { price: 1.25, unit: 1000000 },
+    completion: { price: 10, unit: 1000000 },
+  },
   'chatgpt-4o-latest': {
     prompt: { price: 5, unit: 1000000 },
     completion: { price: 15, unit: 1000000 },
@@ -232,6 +244,8 @@ export const modelTypes: ModelTypes = {
   'chatgpt-4o-latest': 'image',
   'o1-preview-2024-09-12': 'text',
   'o1-mini-2024-09-12': 'text',
+  'gpt-5': 'image',
+  'openai/gpt-5': 'image',
   'anthropic/claude-3.5-sonnet:beta': 'image',
   'anthropic/claude-3.7-sonnet:beta': 'image',
   'anthropic/claude-3.7-sonnet:thinking': 'image',

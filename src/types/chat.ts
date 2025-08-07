@@ -97,6 +97,8 @@ export type ModelOptions =
   | 'anthropic/claude-3.7-sonnet:thinking'
   | 'anthropic/claude-sonnet-4'
   | 'anthropic/claude-opus-4'
+  | 'gpt-5'
+  | 'openai/gpt-5'
   | 'perplexity/llama-3.1-sonar-huge-128k-online'
   | 'google/gemini-pro-1.5-exp'
   | 'x-ai/grok-2'
