@@ -99,6 +99,8 @@ export type ModelOptions =
   | 'anthropic/claude-opus-4'
   | 'gpt-5'
   | 'openai/gpt-5'
+  | 'openai/gpt-5-chat'
+  | 'openai/gpt-5-mini'
   | 'perplexity/llama-3.1-sonar-huge-128k-online'
   | 'google/gemini-pro-1.5-exp'
   | 'x-ai/grok-2'
