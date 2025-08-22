@@ -104,3 +104,12 @@ export const migrateV7 = (persistedState: LocalStorageInterfaceV7oV8) => {
     chat.id = uuidv4();
   });
 };
+
+export const migrateV8 = (persistedState: any) => {
+  if (persistedState.reasoningEffort === undefined) {
+    persistedState.reasoningEffort = 'medium';
+  }
+  if (persistedState.reasoningMaxTokens === undefined) {
+    persistedState.reasoningMaxTokens = 31000;
+  }
+};

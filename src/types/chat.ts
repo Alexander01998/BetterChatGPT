@@ -204,5 +204,11 @@ export interface LocalStorageInterfaceV7oV8
   folders: FolderCollection;
 }
 
+export interface LocalStorageInterfaceV8ToV9
+  extends LocalStorageInterfaceV7oV8 {
+  reasoningEffort?: 'low' | 'medium' | 'high';
+  reasoningMaxTokens?: number;
+}
+
 // export interface LocalStorageInterfaceV8ToV9
 //   extends LocalStorageInterfaceV7oV8 {

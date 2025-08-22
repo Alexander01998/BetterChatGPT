@@ -17,6 +17,9 @@ export interface ConfigSlice {
   markdownMode: boolean;
   countTotalTokens: boolean;
   totalTokenUsed: TotalTokenUsed;
+  // Reasoning controls
+  reasoningEffort: 'low' | 'medium' | 'high';
+  reasoningMaxTokens: number;
   setOpenConfig: (openConfig: boolean) => void;
   setTheme: (theme: Theme) => void;
   setAutoTitle: (autoTitle: boolean) => void;
@@ -30,6 +33,8 @@ export interface ConfigSlice {
   setMarkdownMode: (markdownMode: boolean) => void;
   setCountTotalTokens: (countTotalTokens: boolean) => void;
   setTotalTokenUsed: (totalTokenUsed: TotalTokenUsed) => void;
+  setReasoningEffort: (effort: 'low' | 'medium' | 'high') => void;
+  setReasoningMaxTokens: (maxTokens: number) => void;
 }
 
 export const createConfigSlice: StoreSlice<ConfigSlice> = (set, get) => ({
@@ -46,6 +51,9 @@ export const createConfigSlice: StoreSlice<ConfigSlice> = (set, get) => ({
   markdownMode: true,
   countTotalTokens: false,
   totalTokenUsed: {},
+  // Defaults for reasoning controls
+  reasoningEffort: 'medium',
+  reasoningMaxTokens: 31000,
   setOpenConfig: (openConfig: boolean) => {
     set((prev: ConfigSlice) => ({
       ...prev,
@@ -122,6 +130,18 @@ export const createConfigSlice: StoreSlice<ConfigSlice> = (set, get) => ({
     set((prev: ConfigSlice) => ({
       ...prev,
       totalTokenUsed: totalTokenUsed,
+    }));
+  },
+  setReasoningEffort: (effort: 'low' | 'medium' | 'high') => {
+    set((prev: ConfigSlice) => ({
+      ...prev,
+      reasoningEffort: effort,
+    }));
+  },
+  setReasoningMaxTokens: (maxTokens: number) => {
+    set((prev: ConfigSlice) => ({
+      ...prev,
+      reasoningMaxTokens: maxTokens,
     }));
   },
 });

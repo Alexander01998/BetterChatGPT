@@ -50,14 +50,33 @@ export const getChatCompletion = async (
     }
   }
 
+  // Build reasoning payload according to provider/model
+  const isOpenRouter = config.model.includes('/');
+  const isAnthropicOnOpenRouter = isOpenRouter && config.model.startsWith('anthropic/');
+  const isAzure = isAzureEndpoint(endpoint);
+  const state = useStore.getState();
+
+  let reasoning: any | undefined;
+  if (isOpenRouter) {
+    reasoning = isAnthropicOnOpenRouter
+      ? { max_tokens: state.reasoningMaxTokens }
+      : { effort: state.reasoningEffort };
+  } else if (!isAzure) {
+    // Official OpenAI API
+    reasoning = { effort: state.reasoningEffort };
+  }
+
+  const body: any = {
+    messages,
+    ...config,
+    max_tokens: undefined,
+  };
+  if (reasoning) body.reasoning = reasoning;
+
   const response = await fetch(endpoint, {
     method: 'POST',
     headers,
-    body: JSON.stringify({
-      messages,
-      ...config,
-      max_tokens: undefined,
-    }),
+    body: JSON.stringify(body),
   });
   if (!response.ok) throw new Error(await response.text());
 
@@ -109,17 +128,36 @@ export const getChatCompletionStream = async (
     }
   }
 
+  // Build reasoning payload according to provider/model
+  const isOpenRouter = config.model.includes('/');
+  const isAnthropicOnOpenRouter = isOpenRouter && config.model.startsWith('anthropic/');
+  const isAzure = isAzureEndpoint(endpoint);
+  const state = useStore.getState();
+
+  let reasoning: any | undefined;
+  if (isOpenRouter) {
+    reasoning = isAnthropicOnOpenRouter
+      ? { max_tokens: state.reasoningMaxTokens }
+      : { effort: state.reasoningEffort };
+  } else if (!isAzure) {
+    // Official OpenAI API
+    reasoning = { effort: state.reasoningEffort };
+  }
+
   if (config.model.startsWith('o1')) {
     // For models starting with "o1", use non-streaming request
+    const body: any = {
+      messages,
+      ...config,
+      max_tokens: undefined,
+      stream: false,
+    };
+    if (reasoning) body.reasoning = reasoning;
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers,
-      body: JSON.stringify({
-        messages,
-        ...config,
-        max_tokens: undefined,
-        stream: false,
-      }),
+      body: JSON.stringify(body),
     });
 
     if (!response.ok) {
@@ -164,15 +202,18 @@ export const getChatCompletionStream = async (
   }
 
   // Existing streaming logic for other models
+  const body: any = {
+    messages,
+    ...config,
+    max_tokens: undefined,
+    stream: true,
+  };
+  if (reasoning) body.reasoning = reasoning;
+
   const response = await fetch(endpoint, {
     method: 'POST',
     headers,
-    body: JSON.stringify({
-      messages,
-      ...config,
-      max_tokens: undefined,
-      stream: true,
-    }),
+    body: JSON.stringify(body),
   });
   if (response.status === 404 || response.status === 405) {
     const text = await response.text();

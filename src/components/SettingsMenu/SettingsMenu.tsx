@@ -16,6 +16,7 @@ import ChatConfigMenu from '@components/ChatConfigMenu';
 import EnterToSubmitToggle from './EnterToSubmitToggle';
 import TotalTokenCost, { TotalTokenCostToggle } from './TotalTokenCost';
 import ClearConversation from '@components/Menu/MenuOptions/ClearConversation';
+import ReasoningSettings from './ReasoningSettings';
 
 const SettingsMenu = () => {
   const { t } = useTranslation();
@@ -55,6 +56,7 @@ const SettingsMenu = () => {
             <ClearConversation />
             <PromptLibraryMenu />
             <ChatConfigMenu />
+            <ReasoningSettings />
             <TotalTokenCost />
           </div>
         </PopupModal>
