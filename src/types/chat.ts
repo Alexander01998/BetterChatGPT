@@ -105,6 +105,7 @@ export type ModelOptions =
   | 'anthropic/claude-3.7-sonnet:thinking'
   | 'anthropic/claude-sonnet-4'
   | 'anthropic/claude-opus-4'
+  | 'anthropic/claude-opus-4.1'
   | 'gpt-5'
   | 'openai/gpt-5'
   | 'openai/gpt-5-chat'
