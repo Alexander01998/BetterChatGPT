@@ -1,7 +1,7 @@
 import { ShareGPTSubmitBodyInterface } from '@type/api';
 import { ConfigInterface, ImageContentInterface, MessageInterface, ModelOptions } from '@type/chat';
 import { isAzureEndpoint } from '@utils/api';
-import { shouldUseReasoningEffort, shouldUseReasoningMaxTokens } from '@constants/chat';
+import { shouldUseReasoningEffort, shouldUseReasoningMaxTokens, supportsOpenAIReasoning } from '@constants/chat';
 import useStore from '@store/store';
 
 const buildReasoningParameter = (config: ConfigInterface) => {
@@ -10,10 +10,17 @@ const buildReasoningParameter = (config: ConfigInterface) => {
   const { model } = config;
   const { effort, max_tokens } = config.reasoning;
 
-  if (shouldUseReasoningEffort(model) && effort) {
+  // Check if this is an OpenAI model that supports reasoning
+  if (supportsOpenAIReasoning(model) && effort) {
     return { effort };
-  } else if (shouldUseReasoningMaxTokens(model) && max_tokens) {
+  } 
+  // Check if this is an Anthropic model on OpenRouter
+  else if (shouldUseReasoningMaxTokens(model) && max_tokens) {
     return { max_tokens };
+  }
+  // Check if this is a non-Anthropic model on OpenRouter
+  else if (shouldUseReasoningEffort(model) && effort) {
+    return { effort };
   }
 
   return undefined;
@@ -67,9 +74,10 @@ export const getChatCompletion = async (
   }
 
   const reasoning = buildReasoningParameter(config);
+  const { reasoning: _, ...configWithoutReasoning } = config;
   const requestBody: any = {
     messages,
-    ...config,
+    ...configWithoutReasoning,
     max_tokens: undefined,
   };
   
@@ -136,9 +144,10 @@ export const getChatCompletionStream = async (
 
   if (config.model.startsWith('o1') || config.model === 'gpt-5' || config.model === 'openai/gpt-5') {
     // For models without native streaming (o1 and specific gpt-5 variants), use non-streaming request
+    const { reasoning: _, ...configWithoutReasoning } = config;
     const requestBody: any = {
       messages,
-      ...config,
+      ...configWithoutReasoning,
       max_tokens: undefined,
       stream: false,
     };
@@ -195,9 +204,10 @@ export const getChatCompletionStream = async (
   }
 
   // Existing streaming logic for other models
+  const { reasoning: _, ...configWithoutReasoning } = config;
   const requestBody: any = {
     messages,
-    ...config,
+    ...configWithoutReasoning,
     max_tokens: undefined,
     stream: true,
   };

@@ -318,13 +318,44 @@ export const isOpenRouterModel = (model: string): boolean => {
 };
 
 export const shouldUseReasoningEffort = (model: string): boolean => {
-  // Use effort for OpenAI API and non-Anthropic models on OpenRouter
-  return isOpenAIAPIModel(model) || (isOpenRouterModel(model) && !isAnthropicModel(model));
+  // Use effort for supported OpenAI API models and non-Anthropic models on OpenRouter
+  return supportsOpenAIReasoning(model) || (isOpenRouterModel(model) && !isAnthropicModel(model));
 };
 
 export const shouldUseReasoningMaxTokens = (model: string): boolean => {
   // Use max_tokens for Anthropic models on OpenRouter
   return isOpenRouterModel(model) && isAnthropicModel(model);
+};
+
+export const openAINonReasoningModels = [
+  // GPT-3.5 models
+  'gpt-3.5-turbo',
+  'gpt-3.5-turbo-16k',
+  'gpt-3.5-turbo-0125',
+  'gpt-3.5-turbo-1106',
+  
+  // GPT-4 models
+  'gpt-4',
+  'gpt-4-turbo',
+  'gpt-4-turbo-preview',
+  'gpt-4-turbo-2024-04-09',
+  'gpt-4-0125-preview',
+  'gpt-4-1106-preview',
+  'gpt-4-0613',
+  
+  // GPT-4o models (do not support reasoning)
+  'gpt-4o',
+  'gpt-4o-2024-05-13',
+  'gpt-4o-2024-08-06',
+  'gpt-4o-mini',
+  'gpt-4o-mini-2024-07-18',
+  'chatgpt-4o-latest',
+];
+
+export const supportsOpenAIReasoning = (model: string): boolean => {
+  // OpenAI API models support reasoning unless they're in the non-reasoning list
+  // This means o1, o3, gpt-5, and future models will support reasoning by default
+  return isOpenAIAPIModel(model) && !openAINonReasoningModels.includes(model);
 };
 
 export const codeLanguageSubset = [
