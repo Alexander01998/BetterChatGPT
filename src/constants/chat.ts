@@ -53,7 +53,7 @@ export const modelOptions: ModelOptions[] = [
   'perplexity/sonar-reasoning',
 ];
 
-export const defaultModel = 'anthropic/claude-sonnet-4';
+export const defaultModel = 'anthropic/claude-opus-4.1';
 
 export const modelMaxToken = {
   'gpt-3.5-turbo': 4096,
