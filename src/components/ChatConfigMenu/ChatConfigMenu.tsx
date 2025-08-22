@@ -8,11 +8,13 @@ import {
   MaxTokenSlider,
   ModelSelector,
   PresencePenaltySlider,
+  ReasoningEffortSelector,
+  ReasoningMaxTokensSlider,
   TemperatureSlider,
   TopPSlider,
 } from '@components/ConfigMenu/ConfigMenu';
 
-import { ModelOptions } from '@type/chat';
+import { ModelOptions, ReasoningInterface } from '@type/chat';
 import { _defaultChatConfig, _defaultSystemMessage } from '@constants/chat';
 
 const ChatConfigMenu = () => {
@@ -56,6 +58,9 @@ const ChatConfigPopup = ({
   const [_frequencyPenalty, _setFrequencyPenalty] = useState<number>(
     config.frequency_penalty
   );
+  const [_reasoning, _setReasoning] = useState<ReasoningInterface>(
+    config.reasoning || { effort: 'medium', max_tokens: 31000 }
+  );
 
   const { t } = useTranslation('model');
 
@@ -67,6 +72,7 @@ const ChatConfigPopup = ({
       top_p: _topP,
       presence_penalty: _presencePenalty,
       frequency_penalty: _frequencyPenalty,
+      reasoning: _reasoning,
     });
     setDefaultSystemMessage(_systemMessage);
     setIsModalOpen(false);
@@ -79,6 +85,7 @@ const ChatConfigPopup = ({
     _setTopP(_defaultChatConfig.top_p);
     _setPresencePenalty(_defaultChatConfig.presence_penalty);
     _setFrequencyPenalty(_defaultChatConfig.frequency_penalty);
+    _setReasoning(_defaultChatConfig.reasoning || { effort: 'medium', max_tokens: 31000 });
     _setSystemMessage(_defaultSystemMessage);
   };
 
@@ -111,6 +118,14 @@ const ChatConfigPopup = ({
         <FrequencyPenaltySlider
           _frequencyPenalty={_frequencyPenalty}
           _setFrequencyPenalty={_setFrequencyPenalty}
+        />
+        <ReasoningEffortSelector
+          _reasoning={_reasoning}
+          _setReasoning={_setReasoning}
+        />
+        <ReasoningMaxTokensSlider
+          _reasoning={_reasoning}
+          _setReasoning={_setReasoning}
         />
         <div
           className='btn btn-neutral cursor-pointer mt-5'

@@ -282,6 +282,10 @@ export const _defaultChatConfig: ConfigInterface = {
   presence_penalty: 0,
   top_p: 1,
   frequency_penalty: 0,
+  reasoning: {
+    effort: 'medium',
+    max_tokens: 31000,
+  },
 };
 
 export const generateDefaultChat = (
@@ -298,6 +302,30 @@ export const generateDefaultChat = (
   titleSet: false,
   folder,
 });
+
+// Helper functions for reasoning parameter logic
+export const isAnthropicModel = (model: string): boolean => {
+  return model.startsWith('anthropic/');
+};
+
+export const isOpenAIAPIModel = (model: string): boolean => {
+  // Models that don't have a slash are OpenAI API models
+  return !model.includes('/');
+};
+
+export const isOpenRouterModel = (model: string): boolean => {
+  return model.includes('/');
+};
+
+export const shouldUseReasoningEffort = (model: string): boolean => {
+  // Use effort for OpenAI API and non-Anthropic models on OpenRouter
+  return isOpenAIAPIModel(model) || (isOpenRouterModel(model) && !isAnthropicModel(model));
+};
+
+export const shouldUseReasoningMaxTokens = (model: string): boolean => {
+  // Use max_tokens for Anthropic models on OpenRouter
+  return isOpenRouterModel(model) && isAnthropicModel(model);
+};
 
 export const codeLanguageSubset = [
   'python',

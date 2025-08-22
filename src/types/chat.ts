@@ -41,6 +41,13 @@ export interface ChatInterface {
   titleSet: boolean;
 }
 
+export type ReasoningEffort = 'low' | 'medium' | 'high';
+
+export interface ReasoningInterface {
+  effort?: ReasoningEffort;
+  max_tokens?: number;
+}
+
 export interface ConfigInterface {
   model: ModelOptions;
   max_tokens: number;
@@ -48,6 +55,7 @@ export interface ConfigInterface {
   presence_penalty: number;
   top_p: number;
   frequency_penalty: number;
+  reasoning?: ReasoningInterface;
 }
 
 export interface ChatHistoryInterface {
@@ -204,5 +212,7 @@ export interface LocalStorageInterfaceV7oV8
   folders: FolderCollection;
 }
 
-// export interface LocalStorageInterfaceV8ToV9
-//   extends LocalStorageInterfaceV7oV8 {
+export interface LocalStorageInterfaceV8ToV9
+  extends LocalStorageInterfaceV7oV8 {
+  // V9 adds reasoning parameter to ConfigInterface
+}

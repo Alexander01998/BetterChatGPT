@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import useStore from '@store/store';
 import { useTranslation } from 'react-i18next';
 import PopupModal from '@components/PopupModal';
-import { ConfigInterface, ModelOptions } from '@type/chat';
+import { ConfigInterface, ModelOptions, ReasoningEffort, ReasoningInterface } from '@type/chat';
 import DownChevronArrow from '@icon/DownChevronArrow';
 import { modelMaxToken, modelOptions } from '@constants/chat';
 
@@ -25,6 +25,9 @@ const ConfigMenu = ({
   const [_frequencyPenalty, _setFrequencyPenalty] = useState<number>(
     config.frequency_penalty
   );
+  const [_reasoning, _setReasoning] = useState<ReasoningInterface>(
+    config.reasoning || { effort: 'medium', max_tokens: 31000 }
+  );
   const { t } = useTranslation('model');
 
   const handleConfirm = () => {
@@ -35,6 +38,7 @@ const ConfigMenu = ({
       presence_penalty: _presencePenalty,
       top_p: _topP,
       frequency_penalty: _frequencyPenalty,
+      reasoning: _reasoning,
     });
     setIsModalOpen(false);
   };
@@ -65,6 +69,14 @@ const ConfigMenu = ({
         <FrequencyPenaltySlider
           _frequencyPenalty={_frequencyPenalty}
           _setFrequencyPenalty={_setFrequencyPenalty}
+        />
+        <ReasoningEffortSelector
+          _reasoning={_reasoning}
+          _setReasoning={_setReasoning}
+        />
+        <ReasoningMaxTokensSlider
+          _reasoning={_reasoning}
+          _setReasoning={_setReasoning}
         />
       </div>
     </PopupModal>
@@ -288,6 +300,95 @@ export const FrequencyPenaltySlider = ({
       />
       <div className='min-w-fit text-gray-500 dark:text-gray-300 text-sm mt-2'>
         {t('frequencyPenalty.description')}
+      </div>
+    </div>
+  );
+};
+
+export const ReasoningEffortSelector = ({
+  _reasoning,
+  _setReasoning,
+}: {
+  _reasoning: ReasoningInterface;
+  _setReasoning: React.Dispatch<React.SetStateAction<ReasoningInterface>>;
+}) => {
+  const { t } = useTranslation('model');
+  const [dropDown, setDropDown] = useState<boolean>(false);
+  
+  const effortOptions: ReasoningEffort[] = ['low', 'medium', 'high'];
+
+  return (
+    <div className='mt-5 pt-5 border-t border-gray-500'>
+      <label className='block text-sm font-medium text-gray-900 dark:text-white mb-2'>
+        {t('reasoning.effort.label', 'Reasoning Effort')}: {_reasoning.effort}
+      </label>
+      <button
+        className='btn btn-neutral btn-small flex gap-1'
+        type='button'
+        onClick={() => setDropDown((prev) => !prev)}
+        aria-label='reasoning effort'
+      >
+        {_reasoning.effort}
+        <DownChevronArrow />
+      </button>
+      <div
+        id='reasoning-dropdown'
+        className={`${
+          dropDown ? '' : 'hidden'
+        } absolute top-100 bottom-100 z-10 bg-white rounded-lg shadow-xl border-b border-black/10 dark:border-gray-900/50 text-gray-800 dark:text-gray-100 group dark:bg-gray-800 opacity-90`}
+      >
+        <ul
+          className='text-sm text-gray-700 dark:text-gray-200 p-0 m-0'
+          aria-labelledby='reasoningDropdownButton'
+        >
+          {effortOptions.map((effort) => (
+            <li
+              className='px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer'
+              onClick={() => {
+                _setReasoning(prev => ({ ...prev, effort }));
+                setDropDown(false);
+              }}
+              key={effort}
+            >
+              {effort}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className='min-w-fit text-gray-500 dark:text-gray-300 text-sm mt-2'>
+        {t('reasoning.effort.description', 'Controls the effort level for reasoning. Higher effort may provide better results but takes longer.')}
+      </div>
+    </div>
+  );
+};
+
+export const ReasoningMaxTokensSlider = ({
+  _reasoning,
+  _setReasoning,
+}: {
+  _reasoning: ReasoningInterface;
+  _setReasoning: React.Dispatch<React.SetStateAction<ReasoningInterface>>;
+}) => {
+  const { t } = useTranslation('model');
+
+  return (
+    <div className='mt-5 pt-5 border-t border-gray-500'>
+      <label className='block text-sm font-medium text-gray-900 dark:text-white'>
+        {t('reasoning.maxTokens.label', 'Reasoning Max Tokens')}: {_reasoning.max_tokens}
+      </label>
+      <input
+        type='range'
+        value={_reasoning.max_tokens || 31000}
+        onChange={(e) => {
+          _setReasoning(prev => ({ ...prev, max_tokens: Number(e.target.value) }));
+        }}
+        min={1000}
+        max={50000}
+        step={1000}
+        className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer'
+      />
+      <div className='min-w-fit text-gray-500 dark:text-gray-300 text-sm mt-2'>
+        {t('reasoning.maxTokens.description', 'Maximum tokens for reasoning. Used with Anthropic models on OpenRouter.')}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ import {
   LocalStorageInterfaceV5ToV6,
   LocalStorageInterfaceV6ToV7,
   LocalStorageInterfaceV7oV8,
+  LocalStorageInterfaceV8ToV9,
 } from '@type/chat';
 import {
   _defaultChatConfig,
@@ -103,4 +104,24 @@ export const migrateV7 = (persistedState: LocalStorageInterfaceV7oV8) => {
     if (chat.folder) chat.folder = folderNameToIdMap[chat.folder];
     chat.id = uuidv4();
   });
+};
+
+export const migrateV8 = (persistedState: LocalStorageInterfaceV8ToV9) => {
+  // Add reasoning parameter to existing chats and default config
+  persistedState.chats.forEach((chat) => {
+    if (!chat.config.reasoning) {
+      chat.config.reasoning = {
+        effort: 'medium',
+        max_tokens: 31000,
+      };
+    }
+  });
+
+  // Update default chat config if it doesn't have reasoning
+  if (!persistedState.defaultChatConfig.reasoning) {
+    persistedState.defaultChatConfig.reasoning = {
+      effort: 'medium',
+      max_tokens: 31000,
+    };
+  }
 };

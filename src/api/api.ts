@@ -1,7 +1,23 @@
 import { ShareGPTSubmitBodyInterface } from '@type/api';
 import { ConfigInterface, ImageContentInterface, MessageInterface, ModelOptions } from '@type/chat';
 import { isAzureEndpoint } from '@utils/api';
+import { shouldUseReasoningEffort, shouldUseReasoningMaxTokens } from '@constants/chat';
 import useStore from '@store/store';
+
+const buildReasoningParameter = (config: ConfigInterface) => {
+  if (!config.reasoning) return undefined;
+
+  const { model } = config;
+  const { effort, max_tokens } = config.reasoning;
+
+  if (shouldUseReasoningEffort(model) && effort) {
+    return { effort };
+  } else if (shouldUseReasoningMaxTokens(model) && max_tokens) {
+    return { max_tokens };
+  }
+
+  return undefined;
+};
 
 export const getChatCompletion = async (
   endpoint: string,
@@ -50,14 +66,21 @@ export const getChatCompletion = async (
     }
   }
 
+  const reasoning = buildReasoningParameter(config);
+  const requestBody: any = {
+    messages,
+    ...config,
+    max_tokens: undefined,
+  };
+  
+  if (reasoning) {
+    requestBody.reasoning = reasoning;
+  }
+
   const response = await fetch(endpoint, {
     method: 'POST',
     headers,
-    body: JSON.stringify({
-      messages,
-      ...config,
-      max_tokens: undefined,
-    }),
+    body: JSON.stringify(requestBody),
   });
   if (!response.ok) throw new Error(await response.text());
 
@@ -109,17 +132,25 @@ export const getChatCompletionStream = async (
     }
   }
 
+  const reasoning = buildReasoningParameter(config);
+
   if (config.model.startsWith('o1') || config.model === 'gpt-5' || config.model === 'openai/gpt-5') {
     // For models without native streaming (o1 and specific gpt-5 variants), use non-streaming request
+    const requestBody: any = {
+      messages,
+      ...config,
+      max_tokens: undefined,
+      stream: false,
+    };
+    
+    if (reasoning) {
+      requestBody.reasoning = reasoning;
+    }
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers,
-      body: JSON.stringify({
-        messages,
-        ...config,
-        max_tokens: undefined,
-        stream: false,
-      }),
+      body: JSON.stringify(requestBody),
     });
 
     if (!response.ok) {
@@ -164,15 +195,21 @@ export const getChatCompletionStream = async (
   }
 
   // Existing streaming logic for other models
+  const requestBody: any = {
+    messages,
+    ...config,
+    max_tokens: undefined,
+    stream: true,
+  };
+  
+  if (reasoning) {
+    requestBody.reasoning = reasoning;
+  }
+
   const response = await fetch(endpoint, {
     method: 'POST',
     headers,
-    body: JSON.stringify({
-      messages,
-      ...config,
-      max_tokens: undefined,
-      stream: true,
-    }),
+    body: JSON.stringify(requestBody),
   });
   if (response.status === 404 || response.status === 405) {
     const text = await response.text();
