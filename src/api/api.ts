@@ -109,8 +109,8 @@ export const getChatCompletionStream = async (
     }
   }
 
-  if (config.model.startsWith('o1')) {
-    // For models starting with "o1", use non-streaming request
+  if (config.model.startsWith('o1') || config.model === 'gpt-5' || config.model === 'openai/gpt-5') {
+    // For models without native streaming (o1 and specific gpt-5 variants), use non-streaming request
     const response = await fetch(endpoint, {
       method: 'POST',
       headers,
