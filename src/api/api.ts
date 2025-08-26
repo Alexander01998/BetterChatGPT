@@ -142,7 +142,7 @@ export const getChatCompletionStream = async (
 
   const reasoning = buildReasoningParameter(config);
 
-  if (config.model.startsWith('o1') || config.model === 'gpt-5' || config.model === 'openai/gpt-5') {
+  if (config.model.startsWith('o1') || config.model === 'gpt-5') {
     // For models without native streaming (o1 and specific gpt-5 variants), use non-streaming request
     const { reasoning: _, ...configWithoutReasoning } = config;
     const requestBody: any = {
