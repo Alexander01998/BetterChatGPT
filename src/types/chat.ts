@@ -104,6 +104,7 @@ export type ModelOptions =
   | 'anthropic/claude-3.7-sonnet:beta'
   | 'anthropic/claude-3.7-sonnet:thinking'
   | 'anthropic/claude-sonnet-4'
+  | 'anthropic/claude-sonnet-4.5'
   | 'anthropic/claude-opus-4'
   | 'anthropic/claude-opus-4.1'
   | 'moonshotai/kimi-k2-0905'
