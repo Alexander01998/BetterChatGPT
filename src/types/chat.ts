@@ -115,6 +115,7 @@ export type ModelOptions =
   | 'openai/gpt-5-mini'
   | 'perplexity/llama-3.1-sonar-huge-128k-online'
   | 'google/gemini-pro-1.5-exp'
+  | 'google/gemini-3-pro-preview'
   | 'x-ai/grok-2'
   | 'nvidia/llama-3.1-nemotron-70b-instruct'
   | 'deepseek/deepseek-r1:nitro'
