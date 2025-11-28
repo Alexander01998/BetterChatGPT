@@ -16,6 +16,7 @@ export const _defaultSystemMessage =
   ``;
 
 export const modelOptions: ModelOptions[] = [
+  'anthropic/claude-opus-4.5',
   'anthropic/claude-sonnet-4.5',
   'anthropic/claude-opus-4.1',
   'anthropic/claude-sonnet-4',
@@ -57,7 +58,7 @@ export const modelOptions: ModelOptions[] = [
   'perplexity/sonar-reasoning',
 ];
 
-export const defaultModel = 'google/gemini-3-pro-preview';
+export const defaultModel = 'anthropic/claude-opus-4.5';
 
 export const modelMaxToken = {
   'gpt-3.5-turbo': 4096,
@@ -92,6 +93,7 @@ export const modelMaxToken = {
   'anthropic/claude-sonnet-4.5': 200000,
   'anthropic/claude-opus-4': 200000,
   'anthropic/claude-opus-4.1': 200000,
+  'anthropic/claude-opus-4.5': 200000,
   'perplexity/llama-3.1-sonar-huge-128k-online': 127072,
   'google/gemini-pro-1.5-exp': 4000000,
   'google/gemini-3-pro-preview': 1048576,
@@ -230,6 +232,10 @@ export const modelCost = {
     prompt: { price: 15, unit: 1000000 },
     completion: { price: 75, unit: 1000000 },
   },
+  'anthropic/claude-opus-4.5': {
+    prompt: { price: 5, unit: 1000000 },
+    completion: { price: 25, unit: 1000000 },
+  },
   'perplexity/llama-3.1-sonar-huge-128k-online': {
     prompt: { price: 5, unit: 1000000 },
     completion: { price: 5, unit: 1000000 },
@@ -299,6 +305,7 @@ export const modelTypes: ModelTypes = {
   'anthropic/claude-sonnet-4.5': 'image',
   'anthropic/claude-opus-4': 'image',
   'anthropic/claude-opus-4.1': 'image',
+  'anthropic/claude-opus-4.5': 'image',
   'perplexity/llama-3.1-sonar-huge-128k-online': 'text',
   'google/gemini-pro-1.5-exp': 'image',
   'google/gemini-3-pro-preview': 'image',

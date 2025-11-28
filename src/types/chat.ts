@@ -107,6 +107,7 @@ export type ModelOptions =
   | 'anthropic/claude-sonnet-4.5'
   | 'anthropic/claude-opus-4'
   | 'anthropic/claude-opus-4.1'
+  | 'anthropic/claude-opus-4.5'
   | 'moonshotai/kimi-k2-0905'
   | 'z-ai/glm-4.6'
   | 'gpt-5'
