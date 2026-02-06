@@ -4,7 +4,7 @@ import useStore from '@store/store';
 
 import useSubmit from '@hooks/useSubmit';
 
-import { ChatInterface, Content, ContentInterface, ImageContentInterface, TextContentInterface } from '@type/chat';
+import { ChatInterface, Content, ContentInterface, ImageContentInterface, ReasoningDetailInterface, TextContentInterface } from '@type/chat';
 
 import PopupModal from '@components/PopupModal';
 import TokenCount from '@components/TokenCount';
@@ -17,19 +17,39 @@ const EditView = ({
   setIsEdit,
   messageIndex,
   sticky,
+  role,
 }: {
   content: ContentInterface[];
   setIsEdit: React.Dispatch<React.SetStateAction<boolean>>;
   messageIndex: number;
   sticky?: boolean;
+  role?: string;
 }) => {
   const inputRole = useStore((state) => state.inputRole);
   const setChats = useStore((state) => state.setChats);
   const currentChatIndex = useStore((state) => state.currentChatIndex);
+  const preserveReasoning = useStore((state) => state.preserveReasoning);
+
+  const existingReasoning = useStore((state) => {
+    const chat = state.chats?.[state.currentChatIndex];
+    const msg = chat?.messages[messageIndex];
+    return msg?.reasoning;
+  });
+
+  const existingReasoningDetails = useStore((state) => {
+    const chat = state.chats?.[state.currentChatIndex];
+    const msg = chat?.messages[messageIndex];
+    return msg?.reasoning_details;
+  });
+
+  const isAssistant = role === 'assistant' || (!sticky && !role);
+  const hasReasoning = !sticky && isAssistant && (existingReasoning !== undefined && existingReasoning !== null);
 
   const [_content, _setContent] = useState<ContentInterface[]>(content);
+  const [_reasoning, _setReasoning] = useState<string>(existingReasoning || '');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const textareaRef = React.createRef<HTMLTextAreaElement>();
+  const reasoningTextareaRef = React.createRef<HTMLTextAreaElement>();
 
   const { t } = useTranslation();
 
@@ -124,6 +144,18 @@ const EditView = ({
       resetTextAreaHeight();
     } else {
       updatedMessages[messageIndex].content = _content;
+      // Save reasoning edits for assistant messages
+      if (hasReasoning) {
+        updatedMessages[messageIndex].reasoning = _reasoning;
+        // If the user edited the reasoning text and there were reasoning_details,
+        // we need to update them to reflect the edit (replace with a simple text block)
+        if (_reasoning !== existingReasoning && existingReasoningDetails?.length) {
+          updatedMessages[messageIndex].reasoning_details = [{
+            type: 'reasoning.text' as const,
+            text: _reasoning,
+          }];
+        }
+      }
       setIsEdit(false);
     }
     setChats(updatedChats);
@@ -148,6 +180,16 @@ const EditView = ({
       resetTextAreaHeight();
     } else {
       updatedMessages[messageIndex].content = _content;
+      // Save reasoning edits before regenerating
+      if (hasReasoning) {
+        updatedMessages[messageIndex].reasoning = _reasoning;
+        if (_reasoning !== existingReasoning && existingReasoningDetails?.length) {
+          updatedMessages[messageIndex].reasoning_details = [{
+            type: 'reasoning.text' as const,
+            text: _reasoning,
+          }];
+        }
+      }
       updatedChats[currentChatIndex].messages = updatedMessages.slice(
         0,
         messageIndex + 1
@@ -169,6 +211,21 @@ const EditView = ({
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, []);
+
+  // Auto-size reasoning textarea
+  useEffect(() => {
+    if (reasoningTextareaRef.current) {
+      reasoningTextareaRef.current.style.height = 'auto';
+      reasoningTextareaRef.current.style.height = `${reasoningTextareaRef.current.scrollHeight}px`;
+    }
+  }, [_reasoning]);
+
+  useEffect(() => {
+    if (reasoningTextareaRef.current) {
+      reasoningTextareaRef.current.style.height = 'auto';
+      reasoningTextareaRef.current.style.height = `${reasoningTextareaRef.current.scrollHeight}px`;
     }
   }, []);
 
@@ -204,6 +261,36 @@ const EditView = ({
 
   return (
     <>
+      {hasReasoning && (
+        <div className={`mb-2 border rounded-md overflow-hidden ${
+          preserveReasoning
+            ? 'border-gray-300 dark:border-gray-600'
+            : 'border-gray-300/60 dark:border-gray-600/60 opacity-60'
+        }`}>
+          <div className='flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-700 border-b border-gray-300 dark:border-gray-600'>
+            <svg className='w-3.5 h-3.5 flex-shrink-0 text-gray-500 dark:text-gray-400' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round'>
+              <path d='M12 2a8 8 0 0 0-8 8c0 3.4 2.1 6.3 5 7.4V20a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-2.6c2.9-1.1 5-4 5-7.4a8 8 0 0 0-8-8z' />
+              <line x1='9' y1='23' x2='15' y2='23' />
+            </svg>
+            <span className='text-xs font-medium text-gray-500 dark:text-gray-400'>
+              {t('reasoning.label')}
+            </span>
+            {!preserveReasoning && (
+              <span className='text-[10px] italic text-gray-400 dark:text-gray-500 ml-auto'>
+                {t('reasoning.readOnly')}
+              </span>
+            )}
+          </div>
+          <textarea
+            ref={reasoningTextareaRef}
+            className='m-0 resize-none rounded-none bg-transparent overflow-y-hidden focus:ring-0 focus-visible:ring-0 leading-6 w-full text-xs font-mono text-gray-600 dark:text-gray-400 px-3 py-2'
+            onChange={(e) => _setReasoning(e.target.value)}
+            value={_reasoning}
+            rows={3}
+            readOnly={!preserveReasoning}
+          />
+        </div>
+      )}
       <div
         className={`w-full ${sticky
           ? 'py-2 md:py-3 px-2 md:px-4 border border-black/10 bg-white dark:border-gray-900/50 dark:text-white dark:bg-gray-700 rounded-md shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:shadow-[0_0_15px_rgba(0,0,0,0.10)]'

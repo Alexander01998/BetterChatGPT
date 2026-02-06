@@ -12,6 +12,17 @@ export interface EventSourceDataChoices {
   delta: {
     content?: string;
     role?: string;
+    reasoning?: string;
+    reasoning_details?: Array<{
+      type: string;
+      text?: string;
+      summary?: string;
+      data?: string;
+      id?: string | null;
+      format?: string;
+      signature?: string | null;
+      index?: number;
+    }>;
   };
   finish_reason?: string;
   index: number;

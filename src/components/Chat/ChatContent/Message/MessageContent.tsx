@@ -28,6 +28,7 @@ const MessageContent = ({
           setIsEdit={setIsEdit}
           messageIndex={messageIndex}
           sticky={sticky}
+          role={role}
         />
       ) : (
         <ContentView

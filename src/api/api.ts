@@ -4,6 +4,21 @@ import { isAzureEndpoint } from '@utils/api';
 import { shouldUseReasoningEffort, shouldUseReasoningMaxTokens, supportsOpenAIReasoning } from '@constants/chat';
 import useStore from '@store/store';
 
+const prepareMessagesForAPI = (messages: MessageInterface[]): any[] => {
+  const preserveReasoning = useStore.getState().preserveReasoning;
+  return messages.map(msg => {
+    const prepared: any = { role: msg.role, content: msg.content };
+    if (preserveReasoning && msg.role === 'assistant') {
+      if (msg.reasoning_details && msg.reasoning_details.length > 0) {
+        prepared.reasoning_details = msg.reasoning_details;
+      } else if (msg.reasoning) {
+        prepared.reasoning = msg.reasoning;
+      }
+    }
+    return prepared;
+  });
+};
+
 const buildReasoningParameter = (config: ConfigInterface) => {
   if (!config.reasoning) return undefined;
 
@@ -76,7 +91,7 @@ export const getChatCompletion = async (
   const reasoning = buildReasoningParameter(config);
   const { reasoning: _, ...configWithoutReasoning } = config;
   const requestBody: any = {
-    messages,
+    messages: prepareMessagesForAPI(messages),
     ...configWithoutReasoning,
     max_tokens: undefined,
   };
@@ -146,7 +161,7 @@ export const getChatCompletionStream = async (
     // For models without native streaming (o1 and specific gpt-5 variants), use non-streaming request
     const { reasoning: _, ...configWithoutReasoning } = config;
     const requestBody: any = {
-      messages,
+      messages: prepareMessagesForAPI(messages),
       ...configWithoutReasoning,
       max_tokens: undefined,
       stream: false,
@@ -172,9 +187,29 @@ export const getChatCompletionStream = async (
     const fakeStream = new ReadableStream({
       async start(controller) {
         const encoder = new TextEncoder();
-        
+        const message = data.choices[0].message;
+
+        // Send reasoning first if present
+        const reasoningText = message.reasoning || message.reasoning_content;
+        const reasoningDetails = message.reasoning_details;
+        if (reasoningText || reasoningDetails) {
+          const reasoningChunk: any = {
+            choices: [{
+              delta: {} as any
+            }]
+          };
+          if (reasoningDetails && Array.isArray(reasoningDetails)) {
+            reasoningChunk.choices[0].delta.reasoning_details = reasoningDetails;
+          } else if (reasoningText) {
+            reasoningChunk.choices[0].delta.reasoning = reasoningText;
+          }
+          const encodedReasoning = encoder.encode(`data: ${JSON.stringify(reasoningChunk)}\n\n`);
+          controller.enqueue(encodedReasoning);
+          await new Promise(resolve => setTimeout(resolve, 1));
+        }
+
         // Simulate streaming by sending the content in chunks
-        const content = data.choices[0].message.content;
+        const content = message.content;
         const chunkSize = 100;
         
         for (let i = 0; i < content.length; i += chunkSize) {
@@ -206,7 +241,7 @@ export const getChatCompletionStream = async (
   // Existing streaming logic for other models
   const { reasoning: _, ...configWithoutReasoning } = config;
   const requestBody: any = {
-    messages,
+    messages: prepareMessagesForAPI(messages),
     ...configWithoutReasoning,
     max_tokens: undefined,
     stream: true,

@@ -27,9 +27,27 @@ export interface ContentInterface {
   type: Content;
 }
 
+export type ReasoningDetailType = 'reasoning.text' | 'reasoning.encrypted' | 'reasoning.summary';
+
+export interface ReasoningDetailInterface {
+  type: ReasoningDetailType;
+  id?: string | null;
+  format?: string;
+  index?: number;
+  // For reasoning.text
+  text?: string;
+  signature?: string | null;
+  // For reasoning.encrypted
+  data?: string;
+  // For reasoning.summary
+  summary?: string;
+}
+
 export interface MessageInterface {
   role: Role;
   content: ContentInterface[];
+  reasoning?: string;
+  reasoning_details?: ReasoningDetailInterface[];
 }
 
 export interface ChatInterface {
@@ -223,4 +241,10 @@ export interface LocalStorageInterfaceV7oV8
 export interface LocalStorageInterfaceV8ToV9
   extends LocalStorageInterfaceV7oV8 {
   // V9 adds reasoning parameter to ConfigInterface
+}
+
+export interface LocalStorageInterfaceV9ToV10
+  extends LocalStorageInterfaceV8ToV9 {
+  // V10 adds preserveReasoning setting
+  preserveReasoning: boolean;
 }

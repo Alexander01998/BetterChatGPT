@@ -10,6 +10,7 @@ import LanguageSelector from '@components/LanguageSelector';
 import AutoTitleToggle from './AutoTitleToggle';
 import AdvancedModeToggle from './AdvencedModeToggle';
 import InlineLatexToggle from './InlineLatexToggle';
+import PreserveReasoningToggle from './PreserveReasoningToggle';
 
 import PromptLibraryMenu from '@components/PromptLibraryMenu';
 import ChatConfigMenu from '@components/ChatConfigMenu';
@@ -49,6 +50,7 @@ const SettingsMenu = () => {
               <AutoTitleToggle />
               <EnterToSubmitToggle />
               <InlineLatexToggle />
+              <PreserveReasoningToggle />
               <AdvancedModeToggle />
               <TotalTokenCostToggle />
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import useStore from '@store/store';
 import { useTranslation } from 'react-i18next';
-import { ChatInterface, MessageInterface, TextContentInterface } from '@type/chat';
+import { ChatInterface, MessageInterface, ReasoningDetailInterface, TextContentInterface } from '@type/chat';
 import { getChatCompletion, getChatCompletionStream } from '@api/api';
 import { parseEventSource } from '@api/helper';
 import { limitMessageTokens, updateTotalTokenUsed } from '@utils/messageUtils';
@@ -65,6 +65,8 @@ const useSubmit = () => {
         type: 'text',
         text: ''
       } as TextContentInterface],
+      reasoning: undefined,
+      reasoning_details: undefined,
     });
 
     setChats(updatedChats);
@@ -124,22 +126,80 @@ const useSubmit = () => {
           if (Array.isArray(result) && result.length === 1 && result[0] === '[DONE]' || done) {
             reading = false;
           } else {
-            const resultString = result.reduce((output: string, curr) => {
+            let resultString = '';
+            let reasoningString = '';
+            let reasoningDetails: ReasoningDetailInterface[] = [];
+
+            for (const curr of result) {
               if (typeof curr === 'string') {
                 partial += curr;
               } else if (typeof curr === 'object' && curr !== null) {
-                const choices = (curr as { choices?: Array<{ delta?: { content?: string } }> }).choices;
-                const content = choices?.[0]?.delta?.content ?? null;
-                if (content) output += content;
+                const choices = (curr as {
+                  choices?: Array<{
+                    delta?: {
+                      content?: string;
+                      reasoning?: string;
+                      reasoning_details?: Array<{
+                        type: string;
+                        text?: string;
+                        summary?: string;
+                        data?: string;
+                        id?: string | null;
+                        format?: string;
+                        signature?: string | null;
+                        index?: number;
+                      }>;
+                    };
+                  }>;
+                }).choices;
+
+                const delta = choices?.[0]?.delta;
+                if (delta) {
+                  // Extract content
+                  if (delta.content) resultString += delta.content;
+
+                  // Extract reasoning - prefer structured reasoning_details,
+                  // fall back to simple reasoning string. These contain the same
+                  // text so we must NOT use both to avoid duplication.
+                  if (delta.reasoning_details && Array.isArray(delta.reasoning_details) && delta.reasoning_details.length > 0) {
+                    for (const detail of delta.reasoning_details) {
+                      reasoningDetails.push(detail as ReasoningDetailInterface);
+                      if (detail.type === 'reasoning.text' && detail.text) {
+                        reasoningString += detail.text;
+                      } else if (detail.type === 'reasoning.summary' && detail.summary) {
+                        reasoningString += detail.summary;
+                      }
+                    }
+                  } else if (delta.reasoning && typeof delta.reasoning === 'string') {
+                    // Simple string format (only when reasoning_details is absent)
+                    reasoningString += delta.reasoning;
+                  }
+                }
               }
-              return output;
-            }, '');
+            }
 
             const updatedChats: ChatInterface[] = JSON.parse(
               JSON.stringify(useStore.getState().chats)
             );
             const updatedMessages = updatedChats[currentChatIndex].messages;
-            (updatedMessages[updatedMessages.length - 1].content[0] as TextContentInterface).text += resultString;
+            const lastMessage = updatedMessages[updatedMessages.length - 1];
+
+            // Update content
+            if (resultString) {
+              (lastMessage.content[0] as TextContentInterface).text += resultString;
+            }
+
+            // Update reasoning
+            if (reasoningString) {
+              lastMessage.reasoning = (lastMessage.reasoning || '') + reasoningString;
+            }
+            if (reasoningDetails.length > 0) {
+              if (!lastMessage.reasoning_details) {
+                lastMessage.reasoning_details = [];
+              }
+              lastMessage.reasoning_details.push(...reasoningDetails);
+            }
+
             setChats(updatedChats);
           }
         }

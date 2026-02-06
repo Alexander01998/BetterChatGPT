@@ -30,6 +30,7 @@ import CopyButton from './Button/CopyButton';
 import EditButton from './Button/EditButton';
 import DeleteButton from './Button/DeleteButton';
 import MarkdownModeButton from './Button/MarkdownModeButton';
+import ReasoningBlock from './ReasoningBlock';
 
 import CodeBlock from '../CodeBlock';
 
@@ -105,6 +106,7 @@ const ContentView = memo(
 
     return (
       <>
+        {role === 'assistant' && <ReasoningBlock messageIndex={messageIndex} />}
         <div className='markdown prose w-full md:max-w-full break-words dark:prose-invert dark share-gpt-message'>
           {markdownMode ? (
             <ReactMarkdown

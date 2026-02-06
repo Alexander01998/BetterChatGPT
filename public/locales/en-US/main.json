@@ -43,5 +43,13 @@
   "cloneChat": "Clone Chat",
   "cloned": "Cloned",
   "enterToSubmit": "Enter to submit",
+  "preserveReasoning": "Preserve reasoning chains",
+  "reasoning": {
+    "label": "Reasoning",
+    "readOnly": "read-only (preserve reasoning is off)",
+    "encryptedLabel": "Reasoning (encrypted)",
+    "summaryLabel": "Reasoning (summary)",
+    "encryptedBlocks": "{{count}} encrypted reasoning block(s)"
+  },
   "submitPlaceholder": "Type a message or click [/] for prompts..."
 }

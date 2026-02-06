@@ -12,6 +12,7 @@ import {
   LocalStorageInterfaceV6ToV7,
   LocalStorageInterfaceV7oV8,
   LocalStorageInterfaceV8ToV9,
+  LocalStorageInterfaceV9ToV10,
 } from '@type/chat';
 import {
   _defaultChatConfig,
@@ -123,5 +124,12 @@ export const migrateV8 = (persistedState: LocalStorageInterfaceV8ToV9) => {
       effort: 'medium',
       max_tokens: 31000,
     };
+  }
+};
+
+export const migrateV9 = (persistedState: LocalStorageInterfaceV9ToV10) => {
+  // Add preserveReasoning setting (default on)
+  if (persistedState.preserveReasoning === undefined) {
+    persistedState.preserveReasoning = true;
   }
 };
